@@ -1,0 +1,297 @@
+---
+title: LeetCode题解-数组
+date: '2021-07-31'
+tags: ['TypeScript']
+draft: false
+summary: 数组类算法题解
+---
+
+## 合并两个有序数组
+
+### 题目描述
+
+给你两个有序整数数组 `nums1` 和 `nums2`，请你将 `nums2` 合并到 `nums1` 中，使 `nums1` 成为一个有序数组。
+
+初始化 `nums1` 和 `nums2` 的元素数量分别为 `m` 和 `n` 。
+
+你可以假设 `nums1` 的空间大小等于 `m + n`，这样它就有足够的空间保存来自 `nums2` 的元素。
+
+示例1:
+
+> 输入：nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+>
+> 输出：[1,2,2,3,5,6]
+>
+
+### 题解思路
+
+设`indexM = m - 1`, `indexN = n- 1`, `cur = m + n -1`, 分别表示`nums1`索引最大值, `nums2`索引最大值, 当前应该替换的数组索引
+
+`nums1`数组在`indexM`之后会用0填充num2数组长度n个0就像示例中那样:
+
+`nums1: 1 2 3 0 0 0`
+
+`nums2: 2 5 6`
+
+由于`nums1`和`nums2`都是有序数组,我们倒序从最大值开始遍历两个数组,每次对比当前遍历的值,`nums1`数组的最大值对比`nums2`数组的最大值,谁更大谁排在数组的最后面
+
+第一次: `3 < 6`, 将6替换数组索引`cur`得到: `1 2 3 0 0 6`,此时`nums2`向前遍历一位,`indexN-- && cur--`
+
+第二次: `3 < 5`, 将5替换数组索引`cur`得到: `1 2 3 0 5 6`,此时`nums2`再次向前遍历一位,`indexN-- && cur--`
+
+第三次: `3 > 2`, 将3替换数组索引`cur`得到: `1 2 3 3 5 6`,此时`nums1`向前遍历一位,`indexM-- && cur--`
+
+第四次: `2 = 2`, 将2替换数组索引`cur`得到: `1 2 2 3 5 6`,此时`nums1`向前遍历一位,`indexN-- && cur--`,此时`indexN`已经为0了,`nums2`数组已经全部进入`nums1`了,此时已经完成排序了,跳出循环
+
+### 参考代码
+
+```typescript
+function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+    let cur: number = m + n - 1;
+    let indexM: number = m - 1;
+    let indexN: number = n - 1;
+
+    while (indexN > -1) {
+        nums1[cur--] = indexM > -1 && nums1[indexM] > nums2[indexN] 
+        ? nums1[indexM--] 
+        : nums2[indexN--];
+    }
+};
+```
+
+## 颜色分类
+
+### 题目描述
+
+给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+
+此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+
+示例1:
+
+> 输入：nums = [2,0,2,1,1,0]
+>
+> 输出：[0,0,1,1,2,2]
+>
+
+### 题解思路
+
+通过题目描述可以得知排序结果一定是0在1的左边,2在1的右边,我们可以把值为1的元素作为锚点
+
+设置3个索引, `index`表示当前遍历的值, `left`表示数组左边已完成排序的索引, `right`表示数组右边已完成排序的索引
+
+遍历数组取出当前`index`索引值:
+
+- 如果为0与当前的`left`索引值交换位置,0应该在左边,`left+1`,`index`继续向后遍历
+
+- 如果为1跳过,因为不需要主动改变1的位置,等到0和2位置与`left`/`right`交换好自然就在中间了,`index++`
+
+- 如果为2与当前的`right`索引值交换位置,2应该在右边,`right-1`,`index`不需要继续向后,因为换过来的有不知道是1还是0,需要继续再循环判断一次
+
+初始化: `[2,0,2,1,1,0]`
+
+1: `[0,0,2,1,1,2]` (2 - 0) `index=0` `right=5`
+
+2: `[0,0,2,1,1,2]` (0 - 0) `index=1` `left=1`
+
+3: `[0,0,2,1,1,2]` (0 - 0) `index=2` `left=2`
+
+3: `[0,0,1,1,2,2]` (2 - 1) `index=2` `right=4`
+
+4: `[0,0,1,1,2,2]` (1 不交换) `index=3`
+
+5: `[0,0,1,1,2,2]` (1 不交换) `index=4`
+
+6: `[0,0,1,1,2,2]` `index=5` > `right=4` 跳出循环
+
+### 参考代码
+
+```typescript
+function sortColors(nums: number[]): void {
+    let index: number = 0;
+    let left: number = 0;
+    let right: number = nums.length - 1;
+
+    while (index <= right) {
+        const cur: number = nums[index];
+        if (cur === 0) {
+            swap(nums, left, index);
+            index++;
+            left++;
+        } else if (cur === 1) {
+            index++;
+        } else if (cur === 2) {
+            swap(nums, index, right);
+            right--;
+        }
+    }
+};
+
+function swap(nums: number[], index1: number, index2: number): void {
+    const tmp: number = nums[index1];
+    nums[index1] = nums[index2];
+    nums[index2] = tmp;
+}
+```
+
+## 部分排序
+
+### 题目描述
+
+给定一个整数数组，编写一个函数，找出索引 `m` 和 `n` ，只要将索引区间 `[m,n]` 的元素排好序，整个数组就是有序的。（默认是递增有序数组）
+
+注意：`n – m` 尽量最小，也就是说，找出符合条件的最短序列。
+
+函数返回值为 `[m,n]` ，若不存在这样的 `m` 和 `n`（例如整个数组是有序的），请返回 `[-1,-1]` 。
+
+示例1:
+
+> 输入：[1,2,4,7,10,11,7,12,6,7,16,18,19]
+>
+> 输出：[3,9]
+>
+
+### 题解思路
+
+用肉眼直接观察输入数组可以轻易得出我们应该排序第一个7和最后一个7之间的数组，因为1 2 4 ... 16 18 19 已经是有序排列的数组了
+
+先从索引为9的数字7分析，因为7右边所有的值都大于7，且左边还有12这种大于7的数字存在，显然7之前的数组顺序需要排序，所以7的索引应为符合条件的n值
+
+那7左边的6也符合比右边都小且左边存在大于自身的值，况且6的索引值更小，求最短序列的话为什么不是6的索引为n？也很简单，假设6的索引值为n值，那7就已经是固定位置了，12在排序后依然在7前面，显然不合理。
+
+再从索引为3的数组7分析，7左边的所有值都小于7，且右边有6这种小于7的数字的存在，那么显然7之后的数组顺序需要排序
+
+那么我们如何找出`m`和`n`的值？
+
+想要找出`m`（左边索引）需要我们从数组右边开始遍历才能找到`m`，即左边全部小于自身且右边存在小于自身的数且对于多个符合前两个要求的数它是最左边的
+
+想要找出`n`（右边索引）则需要我们从左边开始遍历，即右边全部大于自身且左边存在存在大于自身的数且对于多个符合前两个要求的数它是最右边的
+
+设`m` `n`的初始值均为-1 数组最小值为数组最后一位 数组最大值为第0个
+
+从右往左遍历（空开数组最后一个元素），如果取出来的值小于当前最小值，更新最小值，否则记录下当前索引赋值给`m`直到遍历完整个数组
+
+`m=-1 min=19 -> m=-1 min=18  -> ... -> m=7 min=6 -> ... -> m=3 min=6 -> m=3 min=4 -> ... -> m=3 min=1`
+
+做左往右遍历（空开数组第一个元素），如果取出来的值大于当前最大值，更新最大值，否则记录当前索引赋值给`n`直到遍历完整个数组
+
+`n=-1 max=1 -> n=-1 max=2 -> ... -> n=-1max=11 -> n=6 max=11 -> ... -> n=8 max=12 -> n=9 max=12 -> ... -> n=9 max=19`
+
+### 参考代码
+
+```typescript
+function subSort(array: number[]): number[] {
+    let m: number = -1;
+    let n: number = -1;
+    let min: number = array[array.length - 1]
+    let max: number = array[0];
+
+    // 找出最左边的索引, 当遍历完整个数组,就找到最左边的索引值了
+    for (let right = array.length - 2; right >= 0; right--) 
+        // 取出值小于等于当前最小值更新最小值
+        if (array[right] <= min) min = array[right];
+        // 取出值大于当前最小值,证明右边存在小于自身数字,更新索引值
+        else m = right;
+
+    // 找出最右边的索引
+    for (let left = 1; left < array.length; left++) 
+        // 取出值大于等于当前最大值更新最大值
+        if (array[left] >= max) max = array[left];
+        // 取出值小于当前最大值,证明左边存在大于自身字数,更新索引值
+        else n = left;
+
+    return [m, n];
+};
+
+```
+
+## 有序数组的平方
+
+### 题目描述
+
+给你一个按 非递减顺序 排序的整数数组 `nums`，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
+
+示例1:
+
+> 输入：nums = [-4,-1,0,3,10]
+>
+> 输出：[0,1,9,16,100]
+>
+
+### 题解思路
+
+此题的重点在负整数平方后为正整数，暴力解法就是数组内每个元素平方后再排序。
+
+非暴力解法可以继续使用双指针的做法，在数组左右各设置一个指针指向首尾索引，每次对比当前两个指针的值，谁平方更大谁放在数组的最后面，每次放入后对应的指针向数组中间移动，直到两个指针相遇跳出循环。
+
+### 参考代码
+
+```typescript
+function sortedSquares(nums: number[]): number[] {
+    const arr: number[] = [];
+    let left: number = 0;
+    let right: number = nums.length - 1;
+    
+    while(left <= right) {
+        const leftSquare: number = nums[left] * nums[left];
+        const rightSquare: number = nums[right] * nums[right];
+        if (leftSquare > rightSquare) {
+            arr.unshift(leftSquare);
+            left++;
+        } else {
+            arr.unshift(rightSquare);
+            right--;
+        }
+    }
+
+    return arr;
+};
+
+```
+
+## 盛最多水的容器
+
+### 题目描述
+
+给你 `n` 个非负整数 `a1，a2，...，an`，每个数代表坐标中的一个点 `(i, ai)` 。在坐标内画 `n` 条垂直线，垂直线 `i` 的两个端点分别为 `(i, ai)` 和 `(i, 0)` 。找出其中的两条线，使得它们与 `x` 轴共同构成的容器可以容纳最多的水。
+
+说明：你不能倾斜容器。
+
+示例1:
+
+![示例图](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img/20210801172038.png)
+
+> 输入：[1,8,6,2,5,4,8,3,7]
+>
+> 输出：49
+>
+> 解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。
+
+### 题解思路
+
+观察示例图可知，数组中第2-9个元素之间，取`min(arr[1], arr[8])`为高, 取索引`8-1=7`为长，乘积便是返回值。
+
+题目要求我们求解长和高的最大乘积，高是由两个索引对应值的最小值决定，长则由两个索引之间的间隔决定，所以我们需要做的是同时从前后遍历数组，找出最大乘积。
+
+继续采用双指针解法，在数组左右边各设置一个指针指向首尾索引，初始最大乘积为右索引值乘以`min(arr[0], arr[length-1])`，循环内每次计算当前乘积对比最大乘积，如果当前乘积更大更新最大乘积，对比两个索引值，如果左边更大，需要右指针向中间移动；否则需要左指针想中间移动，直到两个指针相遇，跳出循环，返回最大乘积。
+
+### 参考代码
+
+```typescript
+function maxArea(height: number[]): number {
+    let left = 0;
+    let right = height.length - 1;
+    let maxArea = Math.min(height[left], height[right]) * right
+
+    while(left !== right) {
+        const area = Math.min(height[left], height[right]) * (right - left);
+        if (area > maxArea) maxArea = area;
+        if (height[left] >= height[right]) {
+            right--;
+        } else left++;
+    }
+
+    return maxArea;
+};
+
+```
