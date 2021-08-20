@@ -2,7 +2,7 @@ const siteMetadata = {
   title: 'luckyporo',
   author: 'Powered By Next.js',
   headerTitle: 'luckyporo',
-  description: 'A blog created with Next.js and Tailwind.css',
+  description: '做一个有趣的灵魂',
   language: 'zh-CN',
   siteUrl: 'https://luckyporo.cc',
   siteRepo: 'https://github.com/luckyporo/luckyporo',
