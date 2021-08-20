@@ -1,6 +1,6 @@
 ---
 name: luckyporo
-avatar: https://image-1259477787.cos.ap-shanghai.myqcloud.com/static/images/avatar.png
+avatar: /static/images/avatar.png
 occupation: 全栈工程师
 company: 山西大学·软件工程
 email: zhinian0209@gmail.com

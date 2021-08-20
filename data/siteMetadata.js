@@ -6,10 +6,9 @@ const siteMetadata = {
   language: 'zh-CN',
   siteUrl: 'https://luckyporo.cc',
   siteRepo: 'https://github.com/luckyporo/luckyporo',
-  siteLogo: 'https://image-1259477787.cos.ap-shanghai.myqcloud.com/static/images/logo.png',
-  image: 'https://image-1259477787.cos.ap-shanghai.myqcloud.com/static/images/avatar.png',
-  socialBanner:
-    'https://image-1259477787.cos.ap-shanghai.myqcloud.com/static/images/twitter-card.png',
+  siteLogo: '/static/images/logo.png',
+  image: '/static/images/avatar.png',
+  socialBanner: '/static/images/twitter-card.png',
   email: 'zhinian0209@gmail.com',
   github: 'https://github.com/luckyporo',
   twitter: 'https://twitter.com/luckyporo',
