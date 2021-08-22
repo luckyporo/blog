@@ -12,14 +12,14 @@ const siteMetadata = {
   email: 'zhinian0209@gmail.com',
   github: 'https://github.com/luckyporo',
   twitter: 'https://twitter.com/luckyporo',
-  // facebook: 'https://facebook.com',
-  // youtube: 'https://youtube.com',
   // linkedin: 'https://www.linkedin.com',
+  yuque: 'https://www.yuque.com/luckyporo',
+  juejin: 'https://juejin.cn/user/114004941090311',
   locale: 'zh-CN',
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics
-    plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
-    simpleAnalytics: false, // true or false
+    plausibleDataDomain: 'luckyporo.cc', // e.g. tailwind-nextjs-starter-blog.vercel.app
+    simpleAnalytics: true, // true or false
     googleAnalyticsId: '', // e.g. UA-000000-2 or G-XXXXXXX
   },
   comment: {
