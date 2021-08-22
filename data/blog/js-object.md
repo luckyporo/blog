@@ -1,6 +1,6 @@
 ---
 title: JS中的对象
-date: '2021-12-20'
+date: '2020-12-20'
 tags: ['JavaScript']
 draft: false
 summary: 创建对象的5种方式：创建Object构造函数、对象字面量、工厂模式、构造函数模式、原型模式
