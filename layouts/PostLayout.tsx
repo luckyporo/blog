@@ -6,7 +6,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 
@@ -29,6 +29,10 @@ interface Props {
 
 export default function PostLayout({ frontMatter, authorDetails, next, prev, children }: Props) {
   const { slug, fileName, date, title, tags } = frontMatter
+  const ref = useRef(null)
+  const backToTop = () => {
+    ref.current.scrollIntoView(true)
+  }
 
   return (
     <SectionContainer>
@@ -140,6 +144,11 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                     )}
                   </div>
                 )}
+                {/* <section className="fixed bottom-4 left-64 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 hidden md:block">
+                  <button ref={ref} onClick={backToTop}>
+                    Back To Top
+                  </button>
+                </section> */}
               </div>
               <div className="pt-4 xl:pt-8">
                 <Link
