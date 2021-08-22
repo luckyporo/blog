@@ -1,0 +1,818 @@
+---
+title: LeetCode题解-链表
+date: '2021-08-22'
+tags: ['TypeScript']
+draft: false
+summary: 链表类算法题解
+---
+
+# 链表
+
+## 基础知识
+
+### 单链表
+
+ 链表中的每个节点是单独对象，所有节点通过一般称为`next`的引用指针连接在一起，特点是每个节点只有指向下一个节点的指针。
+
+![单链表](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822145242.png)
+
+链表不需要像数组一样需要连续的内存空间来存储数据，同样正是因为指针的存在链表需要额外的空间用于存储指针，但是随着硬件的不断发展多占用内存已经不是什么缺点了。
+
+![](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822150341.png)
+
+上图可以看出针对链表的插入和删除节点，只需要改变要插入或者删除节点的相邻节点的指针指向，时间复杂度均为O(1)，但是链表的劣势也很明显，由于链表存储在非连读的内存空间中，随机访问无法像数组那种通过首地址和下表然后根据寻址公式就可以直接计算出要访问的内存地址，而链表需要每个节点依次遍历直到找到所需节点。
+
+### 循环链表
+
+循环链表是一种特殊的单链表，唯一区别在于循环链表的尾节点指向的并不是`Null`而是指向了头节点
+
+![循环链表](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822145707.png)
+
+### 双向链表
+
+与单链表的区别在于，每一个节点除了`next`引用指针还有一个`prev`指针指向自身的前一个节点。
+
+![双向链表](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822145758.png)
+
+### 双向循环链表
+
+![](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822150944.png)
+
+## 如何刷链表题？
+
+### 技巧
+
+> 1. 理解指针或引用的含义：在链表中指针或者说是引用，实际上存储的是变量的内存地址，通过指针就能找到指针指向的变量
+>
+> 2. 警惕指针丢失和内存泄漏：插入节点的时候一定注意操作顺序，删除链表节点时，手动释放内存空间（视语言例如C必须手动释放）避免内存泄漏
+>
+>    ```typescript
+>    // 场景：p指针指向a节点 当前链表a->b 需要在ab之间插入节点x
+>    // 错误！！！
+>    p.next = x
+>    x.next = p.next
+>    // 按照通常逻辑我们会先让p指向的a节点的next指针指向x 然后再将x的next指针指向之前b节点
+>    // 那么就容易写出上述代码，但是经过第一行的执行，p.next的指向已经到了x
+>    // 此时再将x.next指针指向p.next，即x.next指向了自己
+>    // 正确写法
+>    x.next = p.next // 先将x节点的next指向b节点
+>    p.next = x // 再将指向b节点的指针重新指向x节点
+>    ```
+>
+> 3. 哨兵技巧：针对链表的插入、删除操作，我们需要对插入的第一个节点和删除最后一个节点做特殊处理，如果引入哨兵节点（即虚拟节点连接到头节点），便不需要对第一个节点和最后一个节点做特殊处理了，因为哨兵节点永远存在在链表上。
+>
+> 4. 注意边界问题：链表为空、链表只有1个/2个节点、代码在处理头、尾节点的时候，这些情况是否都能正常工作
+>
+> 5. 举例+画图大法
+>
+> 6. 多写多练常见的链表操作：单链表反转，判断链表是否有环，两个有序链表的排序合并，删除链表倒数第k个节点，寻找链表中间位置的节点
+
+### 套路
+
+1. 双指针/快慢指针/三指针： 单链表反转，寻找倒数第 k 个元素，寻找链表中间位置的节点，判断链表是否有环
+2. 哨兵节点（虚拟链表头节点）：两个有序链表的排序合并
+
+## 题目列表
+
+### 1.反转链表⭐
+
+[题目](https://leetcode-cn.com/problems/reverse-linked-list/)：
+
+> 给你单链表的头节点 `head` ，请你反转链表，并返回反转后的链表
+>
+> 输入：head = [1,2,3,4,5]
+> 输出：[5,4,3,2,1]
+
+递归解法：
+
+1. 通过**递归函数**，一直递归到链表的最后一个结点为止，此时，**该结点就是反转成功后的头结点**，是最终的返回结果。
+2. 在递归函数中，让当前节点的下一个节点的 `next` 指针指向当前节点。
+3. 在递归函数中，让当前节点的 `next` 指针指向 `null`
+4. 通过2-3的操作，已经让递归函数中的链表实现了**局部反转**，将结果返回给上一层递归函数
+5. 所有递归结束后，链表反转成功。
+
+参考代码：
+
+```typescript
+function reverseList(head: ListNode | null): ListNode | null {
+  // 如果节点为空或者节点的next为空，说明已经遍历到尾节点了
+  // 此时尾节点成了反转链表的头节点，返回反转后的头节点
+  if (head === null || head.next === null) {
+    return head
+  }
+  // 仍然有下一个节点，继续递归传入下一个节点执行下一个函数
+  const cur = reverseList(head.next)
+  // 1.执行到此步已经开始反转链表了，此时是返回上一个未执行完的函数
+  // 这里的head.next就是第一次递归函数执行完的返回值5thNode,即此时head是4thNode
+  // 首先需要将 4thNode（即反转后的2ndNode）<- 5thNode（即反转后的1stNode) 创建指针指向
+  head.next.next = head
+  // 再将 4thNode（即反转后的2ndNode）-> 5thNode（即反转后的1stNode）的指针指向断开
+  head.next = null
+  // 2.返回上一个未执行完的函数
+  return cur
+}
+```
+
+### 2.合并两个有序链表⭐
+
+[题目](https://leetcode-cn.com/problems/merge-two-sorted-lists/)：
+
+> 将两个升序链表合并为一个新的 **升序** 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+>
+> 输入：l1 = [1,2,4], l2 = [1,3,4]
+> 输出：[1,1,2,3,4,4]
+
+双指针解法：
+
+1. 判断传入两个链表头节点是否为空，如果两个都为空直接返回空，如果一个为空返回另一个链表头节点
+2. 设置一个哨兵节点和指向哨兵节点的指针pre
+3. 比较两个链表的当前节点，哨兵节点的指针指向两个节点中值更小的那一个，节点移动到下一个节点，循环此过程直到有一个节点为空
+4. 如果两个链表节点还有下一个节点，哨兵节点的pre指针指向此节点（此时已经说明剩下的节点值全部都大于之前的节点）
+5. 返回哨兵节点的下一个节点
+
+参考代码：
+
+```typescript
+function mergeTwoLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+  // 边界情况优先考虑
+  if (l1 === null && l2 === null) return null
+  if (l1 === null) return l2
+  if (l2 === null) return l1
+  // 设置哨兵节点
+  const dummy = new ListNode(-1)
+  let pre = dummy
+
+  // l1 l2中有任意一个链表遍历完就需要跳出了，此时其实已经排序完了
+  while (l1 !== null && l2 !== null) {
+    // pre指针指向两个链表里面值更小的那个节点
+    if (l1.val <= l2.val) {
+      pre.next = l1
+      l1 = l1.next
+    } else {
+      pre.next = l2
+      l2 = l2.next
+    }
+    // 继续移动到下一个节点
+    pre = pre.next
+  }
+  // l1 l2谁没遍历完连接谁，因为此时没遍历完的链表剩下的所有节点值一定都大于哨兵节点的链表
+  if (l1 !== null) pre.next = l1
+  if (l2 !== null) pre.next = l2
+
+  return dummy.next
+}
+```
+
+### 3.反转链表II⭐⭐
+
+[题目](https://leetcode-cn.com/problems/reverse-linked-list-ii/):
+
+> 给你单链表的头指针 `head` 和两个整数 `left` 和 `right` ，其中 `left <= right`
+>
+> 请你反转从位置 `left` 到位置 `right` 的链表节点，返回 **反转后的链表**
+>
+> 输入：head = [1,2,3,4,5], left = 2, right = 4
+> 输出：[1,4,3,2,5]
+
+双指针解法：
+
+1. 构建一个虚拟节点，让它指向原链表的头节点
+2. 设置两个指针，pre 指针指向以虚拟头节点为链表的头部位置，cur 指针指向原链表的头部位置
+3. 让着两个指针向前移动，直到 pre 指向了第一个要反转的节点的前面那个节点，而 cur 指向了第一个要反转的节点。
+4. 设置临时变量 temp，temp 是 cur 的 next 位置，保存当前需要翻转节点的后面的节点，我们需要交换 temp 和 cur；让 cur 的 next 位置变成 temp 的下一个节点；让 temp 的 next 位置变成 cur；让 pre 的 next 位置变成 temp
+
+参考代码：
+
+```typescript
+function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
+  // 设置一个虚拟节点，目的是为了让原来链表中的所有节点按照统一的方式进行反转：
+  // 比如反转的区间包含了原链表头节点，如果不设置虚拟节点就需要设置临时变量来保存第一位置的节点指针
+  const dummy = new ListNode(-1)
+  // 虚拟节点连接到头节点
+  dummy.next = head
+  // 设置一个指向虚拟节点的指针
+  let pre = dummy
+  // 设置一个指向原链表头节点的指针
+  let cur = head
+
+  // 从0索引位置遍历left-1次直到cur指针指向需要反转区间的第一个节点
+  for (let i = 0; i < left - 1; i++) {
+    if (pre.next && cur?.next) {
+      pre = pre.next
+      cur = cur.next
+    }
+  }
+
+  // 如果反转区间有n个元素则需要循环n-1才能完全反转
+  // 不是n次因为n-1后所有顺序已经定好了，例如： [1,2,3] -> [2,1,3] -> [3,2,1] 经过2次此区间已经完全反转了 [1,2] -> [2,1] 1次就完全反转了
+  for (let i = 0; i < right - left; i++) {
+    const tmp = cur?.next;
+
+    if (cur?.next && tmp?.next && pre.next) {
+      cur.next = cur.next.next
+      tmp.next = pre.next
+      pre.next = tmp
+    }
+  }
+
+  // 返回反转后的链表
+  return dummy.next
+}
+```
+
+### 4.移除链表元素⭐
+
+[题目](https://leetcode-cn.com/problems/remove-linked-list-elements/):
+
+> 给你一个链表的头节点 `head` 和一个整数 `val` ，请你删除链表中所有满足 `Node.val == val` 的节点，并返回 **新的头节点**
+>
+> 输入：head = [1,2,6,3,4,5,6], val = 6
+> 输出：[1,2,3,4,5]
+
+双指针解法：
+
+1. 设置哨兵节点连接head节点
+2. 设置一个指向哨兵节点的pre指针，设置一个指向原链表头节点的cur指针
+3. cur指针不断向后遍历节点，如果发现当前指向节点值等于目标值，让pre指针指向节点的下一个节点直接指向cur的下一个节点，否则pre也要跟上cur的位置（节点值不等于目标值，pre不能停留在原地了）
+4. 返回哨兵节点的下一个节点
+
+参考代码：
+
+```typescript
+function removeElements(head: ListNode | null, val: number): ListNode | null {
+  const dummy = new ListNode(-1)
+  dummy.next = head
+  let pre = dummy
+  let cur = head
+
+  while (cur !== null) {
+    if (cur.val !== val) {
+      pre = cur
+    } else {
+      pre.next = cur.next
+    }
+    cur = cur.next
+  }
+
+  return dummy.next
+}
+```
+
+### 5.K个一组翻转链表⭐⭐⭐
+
+[题目](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/):
+
+> 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+>
+> k 是一个正整数，它的值小于或等于链表的长度。
+>
+> 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+>
+> **进阶：**
+>
+> - 你可以设计一个只使用常数额外空间的算法来解决此问题吗？
+> - **你不能只是单纯的改变节点内部的值**，而是需要实际进行节点交换。
+>
+> 输入：head = [1,2,3,4,5], k = 2
+> 输出：[2,1,4,3,5]
+
+递归&双指针解法：
+
+1. 将链表按照每组k个节点分成n组，每个组内进行反转链表
+2. 将反转后的n组重新连接起来
+
+参考代码：
+
+```typescript
+function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
+  if (head === null) return head
+
+  // 设置头尾指针
+  let pre = head, end = head
+
+  // end指向第k个节点，如果剩余不够k个直接返回头节点
+  for (let i = 0; i < k; i++) {
+    if (end === null) return head
+    end = end.next
+  }
+
+  // 将一组为k个节点的链表传入进行反转得到反转后的新头节点
+  const newHead = reverseList(pre, end)
+  // 递归反转下一组k个节点的链表并将返回的反转后的新头节点连接到当前头指针后面
+  // 每次递归上次反转后的end指针指向的节点作为下一次头节点
+  pre.next = reverseKGroup(end, k)
+
+  return newHead
+};
+
+// 利用双指针对传入的一段链表进行反转
+function reverseList(head: ListNode | null, tail: ListNode | null): ListNode | null {
+  if (head === null) {
+    return head;
+  }
+  let pre = null, cur = head;
+  while (cur !== tail && cur !== null) {
+    const next: ListNode | null = cur.next;
+    cur.next = pre;
+    pre = cur;
+    cur = next;
+  }
+  return pre;
+}
+```
+
+### 6.两数相加⭐⭐
+
+[题目](https://leetcode-cn.com/problems/add-two-numbers/)：
+
+> 给你两个 **非空** 的链表，表示两个非负的整数。它们每位数字都是按照 **逆序** 的方式存储的，并且每个节点只能存储 **一位** 数字。
+>
+> 请你将两个数相加，并以相同形式返回一个表示和的链表。
+>
+> 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+>
+> 输入：l1 = [2,4,3], l2 = [5,6,4]
+> 输出：[7,0,8]
+> 解释：342 + 465 = 807.
+>
+> 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+> 输出：[8,9,9,9,0,0,0,1]
+
+观察示例输出可知，需要注意的点在于进位，当进位一直存在时，尾节点需要构造一个新的节点连接上去
+
+哨兵节点解法：
+
+1. 设置哨兵节点和指向哨兵节点的指针cur
+2. 设置进位初始值为0
+3. 计算当前位数之和（包括进位）重新计算下一位的进位值，构建当前位数节点并连接到cur指针节点后面
+4. 重复3过程直到l1和l2链表遍历完所有节点
+5. 如果此时进位还存在>0的值需要构建一个新节点链接到cur指针节点后面
+
+参考代码：
+
+```typescript
+function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+  const dummy = new ListNode(-1)
+  let carryBit = 0
+  let cur = dummy
+
+  while (l1 !== null || l2 !== null) {
+	// 此时判断l1 l2是否为null是避免两个链表长度不一导致程序执行出错
+    // 如果为null将此位视为0
+    const x = l1 === null ? 0 : l1.val
+    const y = l2 === null ? 0 : l2.val
+    const sum = x + y + carryBit
+	// 计算进位
+    carryBit = Math.floor(sum / 10)
+    // 计算当前位数的值
+    const digit = sum % 10
+	// 构建当前位数节点
+    const digitNode = new ListNode(digit)
+	// 连接
+    cur.next = digitNode
+	// 继续向后移动
+    cur = cur.next
+	// l1 l2继续向后移动
+    if (l1 !== null) l1 = l1.next
+    if (l2 !== null) l2 = l2.next
+  }
+
+  // 如果此时还存在进位需要构建新节点
+  if (carryBit > 0) {
+    const carryBitNode = new ListNode(carryBit)
+
+    cur.next = carryBitNode
+  }
+
+  return dummy.next
+}
+```
+
+### 7.相交链表⭐
+
+[题目](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)：
+
+> 给你两个单链表的头节点 `headA` 和 `headB` ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 `null`
+>
+> 图示两个链表在节点 `c1` 开始相交**：**
+>
+> ![](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210822172119.png)
+>
+> 题目数据 **保证** 整个链式结构中不存在环。
+>
+> **注意**，函数返回结果后，链表必须 **保持其原始结构** 。
+
+双指针解法：
+
+设置两个指针分别指向AB链表头部分别进行遍历链表，无论是否有相交节点两个链表的总长度是相同的，不管AB链表前面遍历多少次，在AB交换指针指向位置后，如果有相交节点一定会遇到，如果没有则会最终指向null，所以采取AB指针交叉遍历的方式进行题解
+
+参考代码：
+
+```typescript
+function getIntersectionNode(headA: ListNode | null, headB: ListNode | null): ListNode | null {
+  // 设置两个指针分别指向AB链表头部
+  let pointA = headA, pointB = headB
+
+  // 无论是否有相交节点两个链表的总长度是相同的，不管AB链表前面遍历多少次，在AB交换指针指向位置后，如果有相交节点一定会遇到，如果没有则会最终指向null
+  /**
+   *      4 - 1                   
+   *            \
+   *             8 - 4 - 5              
+   * 5 - 0 - 1 /
+   */
+  // 例如上图的示例 两个链表总长为 5 + 6 指针A遍历5次后到达尾节点然后重新从链表B头节点开始遍历，而指针B此时在倒数第2个节点
+  // 指针A继续向后遍历B链表到第2个节点，指针B到达A链表的头节点，此时指针AB的距离到达相交节点的距离是一样的，如此便能在第9次遍历的时候找到相交节点了
+  // 如果是没有相交节点的AB链表，同理可知当遍历完两个链表总长度次数后，两个指针同时遍历完两个链表，各自指向的都是null，也即没找到相交节点
+  while (pointA !== pointB) {
+    // A指针遍历完A链表就交换到B链表
+    if (pointA === null)
+      pointA = headB
+    else
+      pointA = pointA.next
+	
+    // 同理
+    if (pointB === null)
+      pointB = headA
+    else
+      pointB = pointB.next
+  }
+
+  return pointA
+}
+```
+
+### 8.分割链表⭐⭐
+
+[题目](https://leetcode-cn.com/problems/partition-list-lcci/)：
+
+> 给你一个链表的头节点 `head` 和一个特定值 `x` ，请你对链表进行分隔，使得所有 **小于** `x` 的节点都出现在 **大于或等于** `x` 的节点之前。
+>
+> 你不需要 **保留** 每个分区中各节点的初始相对位置。
+>
+> 输入：head = [1,4,3,2,5,2], x = 3
+> 输出：[1,2,2,4,3,5]
+
+双指针解法：
+
+观察实例可得大于等于特定值的对应节点应该保持原链表顺序，而不是简单的为链表排序
+
+思路主要是按照特定值将原链表分割成大小链表重新连接后再将两个链表连起来
+
+1. 设置两个哨兵节点，作为大小链表的虚拟头节点
+2. 设置指向两个哨兵节点的指针作为表示大小链表尾部的指针
+3. 遍历原链表，按照值大小分别将两个大小链表的next节点指向当前节点，并且将指针指向当前节点
+4. 将小链表的尾部节点的next指针指向大链表哨兵节点的next节点
+5. 将大链表的尾部节点的next指针断开
+
+参考代码：
+
+```typescript
+function partition(head: ListNode | null, x: number): ListNode | null {
+  const smallHead = new ListNode(-1)
+  const bigHead = new ListNode(-1)
+  
+  let smallTail = smallHead, bigTail = bigHead
+
+  while (head !== null) {
+      if (head.val < x) {
+          smallTail.next = head
+          smallTail = head;
+      } else {
+          bigTail.next = head
+          bigTail = head
+      }
+
+      head = head.next
+  }
+  smallTail.next = bigHead.next
+  bigTail.next = null
+
+  return smallHead.next
+}
+```
+
+### 9.回文链表⭐
+
+[题目](https://leetcode-cn.com/problems/palindrome-linked-list/)：
+
+> 给你一个单链表的头节点 `head` ，请你判断该链表是否为回文链表。如果是，返回 `true` ；否则，返回 `false`
+>
+> 输入：head = [1,2,2,1]
+> 输出：true
+
+此题重点在于如何找到中间节点然后判断节点右侧反转后是否等于左侧，因为链表长度可能是奇数也可能是偶数，设置快慢指针可以不需要判断奇偶数，因为遍历完成后快指针一定走了慢指针两倍的路程，此时只要慢指针右侧反转后遍历完所有节点与原链表每一个节点都相同，就证明是回文链表，比如上述实例，fast指针只走了1步，就无法继续走第2步了，此时slow指针也走了一步，到第2个节点，此时只需要判断slow指针右侧的[2, 1]反转后遍历完是否能跟[1, 2, 2, 1]节点对应上
+
+双指针解法：
+
+1. 设置一个快指针每次走两步，一个慢指针每次走一步
+2. 让快慢指针遍历完成整个链表
+3. 翻转慢指针右侧链表，遍历右侧反转后节点
+4. 对比左右节点值是否相等
+
+参考代码：
+
+```typescript
+function isPalindrome(head: ListNode | null): boolean {
+  // 边界情况：链表为空或者只有一个节点
+  if (head === null || head.next === null) return true
+  // 边界情况：链表只有两个节点
+  if (head.next.next === null) return head.val === head.next.val
+
+  let slow = head, fast = head
+
+  while (fast.next !== null && fast.next.next !== null) {
+    slow = slow.next
+    fast = fast.next.next
+  }
+
+  let rightNode = reverseList(slow.next)
+  let leftNode = head
+
+  while (rightNode !== null) {
+    if (leftNode.val !== rightNode.val) {
+      return false
+    }
+
+    leftNode = leftNode.next
+    rightNode = rightNode.next
+  }
+
+  return true
+}
+
+function reverseList(head: ListNode | null): ListNode | null {
+  if (head === null || head.next === null) {
+    return head
+  }
+  const cur = reverseList(head.next)
+
+  head.next.next = head
+
+  head.next = null
+
+  return cur
+}
+```
+
+### 10.复杂链表的复制⭐⭐
+
+[题目](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)：
+
+> 请实现 `copyRandomList` 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 `next` 指针指向下一个节点，还有一个 `random` 指针指向链表中的任意节点或者 `null`
+>
+> 输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+> 输出：[[7,null],[13,0],[11,4],[10,2],[1,0]]
+
+参考代码：
+
+```typescript
+const copyRandomList = function (head) {
+  if(head === null) return null
+  
+  let cur = head
+  const map = new Map()
+  
+  while (cur !== null && cur.next !== null) {
+    map.set(cur, new Node(cur.val))
+    cur = cur.next
+  }
+    
+  cur = head
+    
+  while (cur !== null && cur.next !== null) {
+    const curVal = map.get(cur)
+    const nextNodeVal = map.get(cur.next)
+    curVal.next = nextNodeVal
+    const randomNodeVal = map.get(cur.random)
+    curVal.random = randomNodeVal
+    cur = cur.next
+  }
+  return map.get(head);
+}
+```
+
+### 11.环形链表 II⭐⭐
+
+[题目](https://leetcode-cn.com/problems/linked-list-cycle-ii/)：
+
+> 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 `null`
+>
+> 为了表示给定链表中的环，我们使用整数 `pos` 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 `pos` 是 `-1`，则在该链表中没有环。**注意，`pos` 仅仅是用于标识环的情况，并不会作为参数传递到函数中。**
+>
+> **说明：**不允许修改给定的链表。
+>
+> **进阶：**
+>
+> - 你是否可以使用 `O(1)` 空间解决此题？
+
+双指针解法：
+
+1. 设置一个slow指针每次移动1步，设置一个fast指针每次移动2步
+2. 如果链表存在环，无论如何向后移动，fast和slow都是有值的
+3. 找到fast和slow相遇的节点
+4. 寻找到环入口节点
+
+参考代码：
+
+```typescript
+function detectCycle(head: ListNode | null): ListNode | null {
+  let slow = head, fast = head
+
+  // 如果链表存在环，那么无论如何移动，fast和slow指向的节点都是有值的
+  // 不管有没有环 fast能指向的节点slow一定可以
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next
+    fast = fast.next.next
+
+    // x 代表从头节点到环形入口节点的节点数
+    // y 代表从环形入口到第一次相遇节点的节点数
+    // z 代表从第一次相遇节点到环形入口的节点数
+    // y + z 代表环的节点总数
+    // 此时，快指针走了 x + y + n (y + z)
+    // 其中，x + y 表示快指针第一次到达相遇节点，n 代表快指针在环里面绕了多少圈
+    // 此时，慢指针走了 x + y 步
+    // 由于快指针每次走 2 步，所以快慢指针第一次相遇的时候出现一个等式
+    // x + y = [x + y + n (y + z)] / 2
+    // 即 2 * (x + y) = x + y + n (y + z)
+    // 即 x + y = n（y + z）
+    // 即 x = n（y + z）- y
+    // 我们的目的就是去求 x
+
+    // 此时slow和fast相遇一定在环内，开始寻找环入口节点
+    if (slow === fast) {
+      // 设a为头节点，b为相遇节点
+      let a = head, b = fast
+
+      // b 在环中绕圈圈，走了 n（y + z）步会回到原处，即回到相遇节点处
+      // 由于 y 代表从环形入口到第一次相遇节点的节点数
+      // 所以 n（y + z） - y 时，b 到达了环形入口节点位置
+      // 由于 x 代表从头节点到环形入口节点的节点数
+      // 所以 a 走了 x 步时，a 到达了环形入口节点位置
+      // 当 x = n（y + z）- y 时，找到了环形入口节点位置
+      // 也即a b节点每次向后移动一步直到指向同一个节点时就是环入口节点
+      while (a !== b) {
+        a = a.next
+        b = b.next
+      }
+
+      return a
+    }
+  }
+
+  return null
+}
+```
+
+### 12.奇偶链表⭐⭐
+
+[题目](https://leetcode-cn.com/problems/odd-even-linked-list/)：
+
+> 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性
+>
+> 请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(n)
+
+双指针解法：
+
+1. 设置奇数节点和偶数节点的指针
+2. 将奇数节点连接到后面偶数节点的下一个奇数节点上
+3. 将偶数节点连接到后面奇数节点的下一个偶数节点上
+4. 奇数节点指向连接上的下一个奇数节点，偶数节点同理
+5. 遍历链表直至偶数节点为空或者偶数节点之后没有奇数节点了
+6. 连接奇数节点到偶数节点的头节点上
+
+参考代码：
+
+```typescript
+function oddEvenList(head: ListNode | null): ListNode | null {
+  if (head === null || head.next === null) return head
+  // 设置奇数节点指针和偶数节点指针
+  let odd = head, even = head.next
+  // 设置偶数头节点，用于完成链表的奇数节点连接
+  const evenHead = head.next
+
+  // 有偶数节点证明一定有奇数节点（偶数排在奇数后面）
+  while (even !== null && even.next !== null) {
+    // 奇数节点的next指针连接到后面偶数节点的下一个奇数节点上
+    odd.next = even.next
+    // 奇数节点向后遍历到刚连接上的奇数节点上
+    odd = odd.next
+    // 偶数节点的next指针连接到后面奇数节点的下一个偶数节点上
+    even.next = odd.next
+    // 偶数节点向后遍历到刚连接上的偶数节点上
+    even = even.next
+  }
+  // 奇数节点连接到偶数头节点上
+  odd.next = evenHead
+
+  return head
+}
+```
+
+### 13.两数相加II⭐⭐
+
+[题目](https://leetcode-cn.com/problems/add-two-numbers-ii/)：
+
+> 给你两个 **非空** 链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表
+>
+> 你可以假设除了数字 0 之外，这两个数字都不会以零开头
+
+根据题目可知链表相加结果是正序输出，需要先算个位，然后不断向前添加头节点计算进位
+
+栈解法：
+
+1. 设置两个栈用于存放两个待相加的链表的值
+2. 设置哨兵节点和进位数用于计算结果和构建新链表
+3. 取两个栈内弹栈元素相加，计算进位，构建当前节点并连接到哨兵节点上
+4. 重复过程直到两个栈全部弹栈且进位数为0（如果是1需要构建一个新节点）
+
+代码参考：
+
+```typescript
+function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+  // 构建一个哨兵节点
+  const dummy = new ListNode(-1)
+  // 设置两个栈用于存放两个链表中的值
+  const s1: number[] = [], s2: number[] = []
+  while (l1 !== null) {
+    s1.push(l1.val)
+    l1 = l1.next
+  }
+  while (l2 !== null) {
+    s2.push(l2.val)
+    l2 = l2.next
+  }
+  // 设置进位数字
+  let carryBit = 0
+
+  while (s1.length || s2.length || carryBit !== 0) {
+    // 当前值如果栈内还有元素就取弹栈值否则用0避免运算错误
+    const x = s1.length ? s1.pop() : 0
+    const y = s2.length ? s2.pop() : 0
+    // 这一位相加之和等于两个链表节点值加进位数字
+    const sum = x + y + carryBit
+    // 下一位的进位数等于和/10取整
+    carryBit = Math.floor(sum / 10)
+    // 实际此节点应存放值为sum取10的余数
+    const diget = sum % 10
+    // 构建当前节点
+    const digetNode = new ListNode(diget) 
+    // 连接到虚拟节点
+    // 如果虚拟节点没有连接过节点直接连接上
+    if (dummy.next === null) {
+      dummy.next = digetNode
+    } else {
+      // 如果有连结过节点需要让当前节点的next指针先连接到之前的节点
+      digetNode.next = dummy.next
+      dummy.next = digetNode
+    }
+  }
+
+  return dummy.next
+}
+```
+
+### 14.从尾到头打印链表⭐
+
+[题目](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)：
+
+> 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）
+
+参考代码：
+
+```typescript
+var reversePrint = function(head) {
+  if (head === null) return []
+  const stack = []
+  while(head !== null) {
+      stack.push(head.val)
+      head = head.next
+  }
+  return stack.reverse()
+}
+```
+
+### 15.链表中倒数第k个节点⭐
+
+[题目](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)：
+
+参考代码：
+
+```typescript
+const getKthFromEnd = function(head, k) {
+  if (head === null) return head
+  let KNode = head
+  // 先让head遍历k次
+  for (let i = 0; i < k; i++) {
+    head = head.next
+  }
+  // 此时Knode与head差k个位置，等head遍历完Knode依然差k个位置遍历完
+  // 所以返回Knode就是倒数第k个
+  while(head !== null) {
+    head = head.next
+    KNode = KNode.next 
+  }
+
+  return KNode
+}
+```
+
