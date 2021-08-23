@@ -14,7 +14,7 @@ const siteMetadata = {
   twitter: 'https://twitter.com/luckyporo',
   // linkedin: 'https://www.linkedin.com',
   yuque: 'https://www.yuque.com/luckyporo',
-  juejin: 'https://juejin.cn/user/114004941090311',
+  // juejin: 'https://juejin.cn/user/114004941090311',
   locale: 'zh-CN',
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics

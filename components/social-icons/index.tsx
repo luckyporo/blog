@@ -3,7 +3,7 @@ import Github from './github.svg'
 import Linkedin from './linkedin.svg'
 import Twitter from './twitter.svg'
 import Yuque from './yuque.svg'
-import Juejin from './juejin.svg'
+// import Juejin from './juejin.svg'
 
 // Icons taken from: https://simpleicons.org/
 
@@ -13,7 +13,7 @@ const components = {
   linkedin: Linkedin,
   twitter: Twitter,
   yuque: Yuque,
-  juejin: Juejin,
+  // juejin: Juejin,
 }
 
 const SocialIcon = ({ kind, href, size = 8 }) => {
