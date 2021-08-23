@@ -16,22 +16,286 @@ summary: 栈和队列类算法题解
 
 [题目](https://leetcode-cn.com/problems/valid-parentheses/)：
 
+> 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效
+>
+> 有效字符串需满足
+> 
+> 1. 左括号必须用相同类型的右括号闭合
+> 2. 左括号必须以正确的顺序闭合
+
+栈解法：
+
+1. 遇到左括号时候推入栈中
+2. 遇到右括号时候与弹栈元素比较是否匹配
+3. 遍历完整个字符串后如果全部匹配返回true
+
+参考代码：
+
+```typescript
+type LeftParentheses = '{' | '[' | '('
+
+function isValid(s: string): boolean {
+  const stack: LeftParentheses[] = []
+
+  for (const c of s) {
+    if (c === '{') stack.push('{')
+    else if (c === '[') stack.push('[')
+    else if (c === '(') stack.push('(')
+    else {
+      if (stack.length === 0) return false
+      const top = stack[stack.length - 1]
+      if (top === '{' && c === '}'  || top === '(' && c === ')' ||  top === '[' && c === ']') stack.pop()
+      else return false
+    }
+  }
+
+  return !stack.length
+};
+```
+
 ### 用栈实现队列⭐[&uarr;](#总览)
 
 [题目](https://leetcode-cn.com/problems/implement-queue-using-stacks/)：
+
+> 请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）:
+>
+> 实现 MyQueue 类：
+>
+> - void push(int x) 将元素 x 推到队列的末尾
+> - int pop() 从队列的开头移除并返回元素
+> - int peek() 返回队列开头的元素
+> - boolean empty() 如果队列为空，返回 true ；否则，返回 false
+
+题解：
+
+1. 需要两个栈，一个入队栈一个出队栈来实现队列
+2. 入队：只需要入队栈压入新元素就可以
+3. 出队：当出队栈没有元素时，需要把所有的出队栈弹出到入队栈中，然后出队栈执行弹栈（保证先入先出）
+4. 获取队列开头元素：思路同出队，只不过不需要执行弹栈操作而是返回栈顶元素
+5. 判断是否为空：两个栈内只要存在元素就不为空
+
+```typescript
+class MyQueue {
+  stackIn: number[];
+  stackOut: number[];
+  constructor() {
+    this.stackIn = [];
+    this.stackOut = [];
+  }
+
+  push(x: number): void {
+    this.stackIn.push(x);
+  }
+
+  pop(): number {
+    if (this.stackOut.length === 0) {
+      while(this.stackIn.length > 0)
+        this.stackOut.push(this.stackIn.pop())
+    }
+    return this.stackOut.pop()
+  }
+
+  peek(): number {
+    if (this.stackOut.length === 0) {
+      while(this.stackIn.length > 0)
+        this.stackOut.push(this.stackIn.pop())
+    }
+    return this.stackOut[this.stackOut.length - 1];
+  }
+
+  empty(): boolean {
+    return !(this.stackIn.length + this.stackOut.length);
+  }
+}
+```
 
 ### 最小栈⭐[&uarr;](#总览)
 
 [题目](https://leetcode-cn.com/problems/min-stack/)：
 
+> 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈
+>
+> - push(x) —— 将元素 x 推入栈中
+> - pop() —— 删除栈顶的元素
+> - top() —— 获取栈顶元素
+> - getMin() —— 检索栈中的最小元素
+
+题解：
+
+1. 需要两个栈，一个栈和一个用于存放最小值的栈
+2. push：栈内正常入栈，当最小栈内没有元素的时候入栈，有元素后则需要判断此次入栈元素是否比栈顶元素小，更小的话入栈。
+3. pop：栈弹栈的元素如果等于最小栈栈顶元素时，最小栈也需要弹栈（例如 stack[4, 6, 7, 1] minStack[4, 1]，如果最小栈不弹栈，显然getMin()一定是错误的）
+4. top：返回栈顶元素
+5. getMin：返回最小栈栈顶元素
+
+```typescript
+class MinStack {
+  stack: number[];
+  minStack: number[];
+  constructor() {
+    this.stack = [];
+    this.minStack= [];
+  }
+
+  push(val: number): void {
+    this.stack.push(val);
+    if (!this.minStack.length) this.minStack.push(val);
+    else if (val <= this.minStack[this.minStack.length - 1] ) this.minStack.push(val)
+  }
+
+  pop(): void {
+    const val = this.stack.pop();
+    if (val === this.minStack[this.minStack.length - 1]) this.minStack.pop();
+  }
+
+  top(): number {
+    return this.stack[this.stack.length - 1];
+  }
+
+  getMin(): number {
+    return this.minStack[this.minStack.length - 1];
+  }
+}
+```
+
 ### 滑动窗口的最大值⭐⭐⭐[&uarr;](#总览)
 
-[题目](https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/)：
+[题目](https://leetcode-cn.com/problems/sliding-window-maximum/)：
+
+> 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位
+>
+> 返回滑动窗口中的最大值
+>
+> 示例 1：
+> 
+> 输入：nums = [1,3,-1,-3,5,3,6,7], k = 3
+> 
+> 输出：[3,3,5,5,6,7]
+> 
+> 解释：
+> 
+> 滑动窗口的位置                最大值
+> 
+> ---------------               -----
+> 
+> [1  3  -1] -3  5  3  6  7       3
+> 
+>  1 [3  -1  -3] 5  3  6  7       3
+> 
+>  1  3 [-1  -3  5] 3  6  7       5
+> 
+>  1  3  -1 [-3  5  3] 6  7       5
+> 
+>  1  3  -1  -3 [5  3  6] 7       6
+> 
+>  1  3  -1  -3  5 [3  6  7]      7
+
+解法：
+
+想要找出当前窗口里面的最大值，自然而然的想法就是遍历窗口中的所有元素，从中选出最大值，这样的复杂度是 O（k*n） 级别，复杂度有点高
+
+首先滑动窗口滑过所有的元素必然要经历 O(n) 的时间，这没法调整，所以可以优化的方向在于获取当前窗口的最大值，即想办法从 O(k) 优化到 O(logk）或者直接优化到 O(1)
+
+使用双端队列可以让窗口移动的过程，维护好队列里面的元素，做到每次窗口移动后都能马上知道当前窗口的最大值，由于想要做到 O(1) 的级别拿到最大值，那么必须是它的队首始终是最大值，也就是说我们需要维护一个递减队列用来保存队列中 所有递减的元素
+
+```typescript
+function maxSlidingWindow(nums: number[], k: number): number[] {
+  // 双端队列
+  const dequeue: number[] = []
+  // 存放结果的数组
+  const result: number[] = []
+
+  // 边界情况判断
+  if (nums.length === 0) return result;
+
+  // 第一次需要首先到达第一个长度为k的滑动窗口
+  for (let i = 0; i < k; i++) {
+    // 双端队列要存一个非严格递减的队列 当双端队列存在元素且当前遍历的元素大于队尾元素时需要队列做出队操作
+    // 重复直到下一个元素可以入队
+    while (dequeue.length && nums[i] > dequeue[dequeue.length - 1]) {
+      dequeue.pop();
+    }
+    dequeue.push(nums[i])
+  }
+
+  // 这时候滑动窗口刚好是第一个合格的窗口
+  result.push(dequeue[0])
+
+  for(let i = k; i < nums.length; i++) {
+    // 滑动窗口已经装满了元素，向右移动会把窗口最左边的元素抛弃
+    // i - k 为滑动窗口的最左边
+    // 如果队列的队首元素和窗口最左边的元素相等，需要将队首元素抛出
+    // 否则会导致队列中包含着非当前窗口的元素 
+    // 如： 比如窗口大小为 1，队列为 1 -1，此时窗口为 [1],队列为 1，输出最大值 1，下一个窗口为 [-1]，
+    // 准备移动的时候队列 1 和数组最左端元素一样，必须移除，否则队列中是 [1, -1]，输出的结果是 1，而 1 不在窗口 [-1]中
+    if (dequeue[0] === nums[i - k]) {
+      dequeue.shift()
+    }
+
+    // 同上 需要队列做出队操作直到下一个元素能入队
+    while (dequeue.length && nums[i] > dequeue[dequeue.length - 1]) {
+      dequeue.pop()
+    }
+    dequeue.push(nums[i])
+
+    // 结果数组当前位置的值就为队首元素
+    result[i - k + 1] = dequeue[0]
+  }
+  return result
+};
+```
 
 ### 每日温度⭐⭐[&uarr;](#总览)
 
 [题目](https://leetcode-cn.com/problems/daily-temperatures/)：
 
+> 请根据每日 气温 列表 temperatures ，请计算在每一天需要等几天才会有更高的温度。如果气温在这之后都不会升高，请在该位置用 0 来代替
+>
+> 输入: temperatures = [73,74,75,71,69,72,76,73]
+> 
+> 输出: [1,1,4,2,1,1,0,0]
+
+解法：
+
+遍历整个数组，如果栈不空，且当前数字大于栈顶元素，那么如果直接入栈的话就不是 递增栈 ，所以需要取出栈顶元素，由于当前数字大于栈顶元素的数字，而且一定是第一个大于栈顶元素的数，直接求出下标差就是二者的距离
+
+继续看新的栈顶元素，直到当前数字小于等于栈顶元素停止，再将数字入栈，这样就可以一直保持递增栈，且每个数字和第一个大于它的数的距离也可以算出来
+
+```typescript
+function dailyTemperatures(temperatures: number[]): number[] {
+  // 栈 用来存放每日温度的下表
+  const stack: number[] = [];
+  // 提前声明一个同每日温度数字相同长度的被0填充的数组用于存放结果
+  const res: number[] = Array(temperatures.length).fill(0);
+
+  // 遍历每日温度数组
+  for (let i = 0; i < temperatures.length; i++) {
+    // 拿到当天的温度，需要和栈首元素进行比较
+    // 如果此时栈不为空并且当天的温度大于栈首元素
+    while(stack.length && temperatures[i] > temperatures[stack[stack.length - 1]]) {
+      // 获取栈首元素的值并移除
+      const preIndex = stack.pop();
+      // 下标差就是栈首元素等了多少天等到更高温度的结果
+      res[preIndex] = i - preIndex;
+    }
+    // 把当天温度的下标值存到栈中
+    stack.push(i);
+  }
+  // 返回结果数组
+  return res;
+}
+```
+
 ### 接雨水⭐⭐⭐[&uarr;](#总览)
 
 [题目](https://leetcode-cn.com/problems/trapping-rain-water/)：
+
+> 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水
+>
+> 示例：
+> ![示例](https://image-1259477787.cos.ap-shanghai.myqcloud.com/blog/img20210823215201.png)
+> 
+> 输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]
+> 输出：6
+>
+> 解释：上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 
