@@ -8,7 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   images: {
     loader: 'imgix',
-    path: '	https://image-1259477787.cos.ap-shanghai.myqcloud.com',
+    path: 'https://image-1259477787.cos.ap-shanghai.myqcloud.com',
   },
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
