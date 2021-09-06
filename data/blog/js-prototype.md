@@ -1,5 +1,5 @@
 ---
-title: JS中的原型和原型链
+title: 原型和原型链
 date: '2020-12-24'
 tags: ['JavaScript']
 draft: false
@@ -25,15 +25,19 @@ console.log(p1.name) // Andy
 ```
 函数的`prototype`属性指向的到底是哪里?
 
+> 构造函数的`prototype`属性用于指定通过该构造函数创建的对象的`prototype`属性
+
 实际上函数的`prototype`属性指向的是一个对象，这个对象是调用该构造函数而创建的**实例**的原型，即上述代码里面的`p1`和`p2`对象的原型
 
 那么问题来了，什么是原型?
 
 > 无论何时，只要创建一个函数，就会按照特定的规则为这个函数创建一个`prototype`属性（指向原型对象）。默认情况下，所有原型对象自动获得一个名为`constructor`的属性，指回与之关联的构造函数。
 > 
-> 在自定义构造函数时， 原型对象默认只会获得`constructor`属性，其他的所有方法都继承自 `Object`。每次调用构造函数创建一个新实例，这个实例的内部`[[Prototype]]`指针就会被赋值为构 造函数的原型对象。脚本中没有访问这个`[[Prototype]]`特性的标准方式，但大部分浏览器会在每个对象上暴露`__proto__`属性，通过这个属性可以访问对象的原型。而在`nodejs`中这个实现完全被隐藏了
+> 在自定义构造函数时，原型对象默认只会获得`constructor`属性，其他的所有方法都继承自 `Object`。每次调用构造函数创建一个新实例，这个实例的内部`[[Prototype]]`指针就会被赋值为构造函数的原型对象。脚本中没有访问这个`[[Prototype]]`特性的标准方式，但大部分浏览器以及`nodejs`中会在每个对象上暴露`__proto__`属性，通过这个属性可以访问对象的原型。而有些环境中这个实现完全被隐藏了
 >
-> 关键在于理解这一点：实例与构造函数原型之间有直接的联系，但实例与构造函数之间没有
+> 关键在于理解这一点：实例与构造函数原型之间有直接的联系，但实例与构造函数之间没有 -- 红宝书
+> 
+> 记住：几乎所有对象都有原型，但只有少数对象有`prototype`属性，正是这些有`prototype`属性的对象为所有其他对象定义了原型 -- 犀牛书
 
 每一个JavaScript对象(`null`除外)在创建的时候就会关联另一个对象，这个关联的对象就是原型，对象会从原型中**继承**属性
 
@@ -41,9 +45,11 @@ console.log(p1.name) // Andy
 
 通过构造函数我们可以使用`[构造函数名称].prototype`来表示实例原型，那么我们如何表示实例与实例原型也就是`p1`和`Person.prototype`之间的关系呢?
 
-### `__proto__`
+### [__proto__]
 
 每一个JavaScript对象(除了`null`)都具有一个`__proto__`属性，这个属性指向该对象的原型
+
+> 对象的`prototype`特性是在对象被创建的时候设定的，使用对象字面量创建的对象使用`Object.prototype`作为其原型，使用`new`创建的对象使用构造函数的`prototype`属性的值作为原型，而使用`Object.create()`创建的对象使用传给它的第一个参数（可能是`null`）作为原型
 
 ```javascript
 function Person() {
@@ -104,8 +110,6 @@ delete person.name;
 console.log(person.name) // Andy
 ```
 
-
-
 ## 原型链
 
 ### 理解原型链
@@ -129,6 +133,8 @@ console.log(obj.name) // Andy
 ### 原型链的终止
 
 正常的原型链都会终止于`Object`的原型对象而`Object`原型的原型是`null`
+
+> `Object.prototype`是为数不多的没有原型的对象，因为它不继承任何属性。其他原型对象都是常规对象，都有自己的原型。多数内置构造函数和多数用户定义的构造函数的原型都继承自`Object.prototype`。例如：`Date.prototype`从`Object.prototype`继承属性，因此通过`new Date()`创建的日期对象从`Date.prototype`和`Object.prototype`继承属性。这种原型对象链接起来的序列被称为原型链
 
 ```javascript
 console.log(Object.prototype.__proto__ === null) // true
@@ -159,10 +165,8 @@ console.log(Object.prototype.__proto__ === null) // true
    实际上`person`中并没有`constructor`属性，当找不到此属性时候会去原型链上找也就是`Person.prototype.constructor`原型中有该属性，于是`person.constructor === Person`
 2. `__proto__`是一个非标准访问原型的方法，只是绝大多数浏览器都实现了这个方法，可以在浏览器中直接访问，它并不存在于`Person.prototype`中，而是来自于`Object.prototype`，当使用`obj.__proto__`时，可以理解成返回了`Object.getPrototypeOf(obj)`
 3. JS中原型链真的是继承吗?
-   > 继承意味着复制操作，然而`JavaScript`默认并不会复制对象的属性，相反，`JavaScript`只是在两个对象之间创建一个关联，这样，一个对象就可以通过委托访问另一个对象的属性和函数，所以与其叫继承，委托的说法反而更准确些
-   >
-   > --你不知道的JavaScript
-
+   > 继承意味着复制操作，然而`JavaScript`默认并不会复制对象的属性，相反，`JavaScript`只是在两个对象之间创建一个关联，这样，一个对象就可以通过委托访问另一个对象的属性和函数，所以与其叫继承，委托的说法反而更准确些 --你不知道的JavaScript
+   
 ## 参考资料
 
 1. [冴羽的博客](https://github.com/mqyqingfeng/Blog/issues/2)
