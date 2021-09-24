@@ -6,6 +6,7 @@ import CustomLink from './Link'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import MusicCard from './MusicCard'
+import { BlogNewsletterForm } from './NewsletterForm'
 
 const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) => {
   const Layout = require(`../layouts/${layout}`).default
@@ -21,6 +22,8 @@ export const MDXComponents: ComponentMap = {
   a: CustomLink,
   pre: Pre,
   wrapper: Wrapper,
+  //@ts-ignore
+  BlogNewsletterForm,
 }
 
 interface Props {
