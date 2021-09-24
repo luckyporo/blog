@@ -24,16 +24,8 @@ module.exports = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: colors.sky,
+        primary: colors.teal,
         gray: colors.trueGray,
-        code: {
-          green: '#b5f4a5',
-          yellow: '#ffe484',
-          purple: '#d9a9ff',
-          red: '#ff8383',
-          blue: '#93ddfd',
-          white: '#fff',
-        },
       },
       typography: (theme) => ({
         DEFAULT: {

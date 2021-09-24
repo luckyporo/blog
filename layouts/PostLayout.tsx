@@ -6,11 +6,15 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
-import { ReactNode, useRef } from 'react'
+import { ReactNode } from 'react'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
+const discussUrl = (slug) =>
+  `https://mobile.twitter.com/search?q=${encodeURIComponent(
+    `${siteMetadata.siteUrl}/blog/${slug}`
+  )}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -29,10 +33,6 @@ interface Props {
 
 export default function PostLayout({ frontMatter, authorDetails, next, prev, children }: Props) {
   const { slug, fileName, date, title, tags } = frontMatter
-  const ref = useRef(null)
-  const backToTop = () => {
-    ref.current.scrollIntoView(true)
-  }
 
   return (
     <SectionContainer>
@@ -82,14 +82,14 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                       <dl className="text-sm font-medium leading-5 whitespace-nowrap">
                         <dt className="sr-only">Name</dt>
                         <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
-                        <dt className="sr-only">Github</dt>
+                        <dt className="sr-only">Twitter</dt>
                         <dd>
-                          {author.github && (
+                          {author.twitter && (
                             <Link
-                              href={author.github}
+                              href={author.twitter}
                               className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                             >
-                              {author.github.replace('https://github.com/', '@')}
+                              {author.twitter.replace('https://twitter.com/', '@')}
                             </Link>
                           )}
                         </dd>
@@ -102,6 +102,10 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
               <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
+                <Link href={discussUrl(slug)} rel="nofollow">
+                  {'Discuss on Twitter'}
+                </Link>
+                {` • `}
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
               </div>
               <Comments frontMatter={frontMatter} />
@@ -144,11 +148,6 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                     )}
                   </div>
                 )}
-                {/* <section className="fixed bottom-4 left-64 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 hidden md:block">
-                  <button ref={ref} onClick={backToTop}>
-                    Back To Top
-                  </button>
-                </section> */}
               </div>
               <div className="pt-4 xl:pt-8">
                 <Link
