@@ -22,6 +22,11 @@ const siteMetadata = {
     // simpleAnalytics: true, // true or false
     // googleAnalyticsId: '', // e.g. UA-000000-2 or G-XXXXXXX
   },
+  newsletter: {
+    // supports mailchimp, buttondown, convertkit
+    // Please add your .env file and modify it according to your selection
+    provider: '',
+  },
   comment: {
     // Select a provider and use the environment variables associated to it
     // https://vercel.com/docs/environment-variables
