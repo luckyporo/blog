@@ -1640,7 +1640,7 @@ public class OverloadingVarargs2 {
 }
 ```
 
-**{WillNotCompile}** 注释把该文件排除在了本书的 Gradle 构建之外。如果你手动编译它，会得到下面的错误信息：
+**WillNotCompile** 注释把该文件排除在了本书的 Gradle 构建之外。如果你手动编译它，会得到下面的错误信息：
 
 ```
 OverloadingVarargs2.java:14:error:reference to f is ambiguous f('a', 'b');

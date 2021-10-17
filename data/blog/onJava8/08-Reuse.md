@@ -692,7 +692,7 @@ class Lisa extends Homer {
 
 ```
 
-**{WillNotCompile}** 标记将该文件排除在本书的 **Gradle** 构建之外，但是如果你手工编译它，你将看到:method does not override a method from its superclass.方法不会重写超类中的方法， **@Override** 注解能防止你意外地重载。
+**WillNotCompile** 标记将该文件排除在本书的 **Gradle** 构建之外，但是如果你手工编译它，你将看到:method does not override a method from its superclass.方法不会重写超类中的方法， **@Override** 注解能防止你意外地重载。
 
 ## 组合与继承的选择
 
