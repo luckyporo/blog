@@ -393,8 +393,6 @@ After creating Initable3 ref
 
 `Class` 引用总是指向某个 `Class` 对象，而 `Class` 对象可以用于产生类的实例，并且包含可作用于这些实例的所有方法代码。它还包含该类的 `static` 成员，因此 `Class` 引用表明了它所指向对象的确切类型，而该对象便是 `Class` 类的一个对象。
 
-<!-- > 译者的理解： `Class` 对象是 `Class` 类产生的对象，而再往深一点说，`Class` 类的 `Class` 对象（`Class.class`）也是其本类产生的对象。即一切皆对象，类也是一种对象。 -->
-
 但是，Java 设计者看准机会，将它的类型变得更具体了一些。Java 引入泛型语法之后，我们可以使用泛型对 `Class` 引用所指向的 `Class` 对象的类型进行限定。在下面的实例中，两种语法都是正确的：
 
 ```java
@@ -1252,8 +1250,6 @@ FuelFilter
 
 因为 `Part implements Supplier<Part>`，`Part` 通过其 `get()` 方法供应其他 `Part`。如果为基类 `Part` 调用 `get()`（或者如果 `generate()` 调用 `get()`），它将创建随机特定的 `Part` 子类型，每个子类型最终都从 `Part` 继承，并重写相应的 `get()` 以生成它们中的一个。
 
-<!-- Instanceof vs. Class Equivalence -->
-
 ## 类的等价比较
 
 当你查询类型信息时，需要注意：instanceof 的形式(即 `instanceof` 或 `isInstance()` ，这两者产生的结果相同) 和 与 Class 对象直接比较 这两者间存在重要区别。下面的例子展示了这种区别：
@@ -1325,8 +1321,6 @@ x.getClass().equals(Derived.class)) true
 ```
 
 `test()` 方法使用两种形式的 `instanceof` 对其参数执行类型检查。然后，它获取 `Class` 引用，并使用 `==` 和 `equals()` 测试 `Class` 对象的相等性。令人放心的是，`instanceof` 和 `isInstance()` 产生的结果相同， `equals()` 和 `==` 产生的结果也相同。但测试本身得出了不同的结论。与类型的概念一致，`instanceof` 说的是“你是这个类，还是从这个类派生的类？”。而如果使用 `==` 比较实际的`Class` 对象，则与继承无关 —— 它要么是确切的类型，要么不是。
-
-<!-- Reflection: Runtime Class Information -->
 
 ## 反射：运行时类信息
 

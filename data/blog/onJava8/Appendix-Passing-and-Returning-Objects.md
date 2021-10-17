@@ -1,5 +1,3 @@
-<!-- Appendix: Passing and Returning Objects -->
-
 # 附录:对象传递和返回
 
 > 到现在为止，你已经对“传递”对象实际上是传递引用这一想法想法感到满意。

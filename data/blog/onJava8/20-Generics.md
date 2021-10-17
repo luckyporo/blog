@@ -655,8 +655,6 @@ S, T, U, V, W, X, Y, Z]
 
 `@SafeVarargs` 注解保证我们不会对变长参数列表进行任何修改，这是正确的，因为我们只从中读取。如果没有此注解，编译器将无法知道这些并会发出警告。
 
-<!-- A General-Purpose Supplier -->
-
 ### 一个泛型的 Supplier
 
 这是一个为任意具有无参构造方法的类生成 **Supplier** 的类。为了减少键入，它还包括一个用于生成 **BasicSupplier** 的泛型方法：
@@ -3637,8 +3635,6 @@ class Gecko extends ComparablePet {
 
 **Hamster** 显示了重新实现 **ComparablePet** 中相同的接口是可能的，只要接口完全相同，包括参数类型。然而正如 **Gecko** 中所示，这与直接覆写基类的方法完全相同。
 
-<!-- Self-Bounded Types -->
-
 ## 自限定的类型
 
 在 Java 泛型中，有一个似乎经常性出现的惯用法，它相当令人费解：
@@ -4642,8 +4638,6 @@ Clank!
 
 在本例中，泛型不是必需的，因为这些类已经被强制要求实现 **Performs** 接口。
 
-<!-- Compensating for the Lack of (Direct) Latent -->
-
 ## 对缺乏潜在类型机制的补偿
 
 尽管 Java 不直接支持潜在类型机制，但是这并不意味着泛型代码不能在不同的类型层次结构之间应用。也就是说，我们仍旧可以创建真正的泛型代码，但是这需要付出一些额外的努力。
@@ -5112,8 +5106,6 @@ Teller 4 serves Customer 12
 ```
 
 可以看到 `create()` 生成一个新的 **Collection** 对象，而 `fill()` 添加到现有 **Collection** 中。第二个版本`fill()` 显示，它不仅与无关的新类型 **Bank** 一起使用，还能与 **List** 一起使用。因此，从技术上讲，`fill()` 的第一个版本在技术上不是必需的，但在使用 **Collection** 时提供了较短的语法。
-
-<!-- Summary: Is Casting Really So Bad? -->
 
 ## 总结：类型转换真的如此之糟吗？
 

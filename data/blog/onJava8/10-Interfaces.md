@@ -754,8 +754,6 @@ Woodwind.play() MIDDLE_C
 
 注意到，无论是将其向上转型为称作 **Instrument** 的普通类，或称作 **Instrument** 的抽象类，还是叫作 **Instrument** 的接口，其行为都是相同的。事实上，从 `tune()` 方法上看不出来 **Instrument** 到底是一个普通类、抽象类，还是一个接口。
 
-<!-- Abstract Classes vs. Interfaces -->
-
 ## 抽象类和接口
 
 尤其是在 Java 8 引入 **default** 方法之后，选择用抽象类还是用接口变得更加令人困惑。下表做了明确的区分：

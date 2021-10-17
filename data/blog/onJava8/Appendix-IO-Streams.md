@@ -1,5 +1,3 @@
-<!-- Appendix: I/O Streams -->
-
 # 附录:流式 IO
 
 > Java 7 引入了一种简单明了的方式来读写文件和操作目录。大多情况下，[文件](./17-Files.md)这一章所介绍的那些库和技术就足够你用了。但是，如果你必须面对一些特殊的需求和比较底层的操作，或者处理一些老版本的代码，那么你就必须了解本附录中的内容。
@@ -81,8 +79,6 @@ I/O 流屏蔽了实际的 I/O 设备中处理数据的细节：
 
 在实际应用中，不管连接的是什么 I/O 设备，我们基本上都会对输入进行缓冲。所以当初 I/O 类库如果能默认都让输入进行缓冲，同时将无缓冲输入作为一种特殊情况（或者只是简单地提供一个方法调用），这样会更加合理，而不是像现在这样迫使我们基本上每次都得手动添加缓冲。
 
-<!-- 译者注：感觉第四版中文版（536页）把上面这一段的意思弄反了 -->
-
 <span id="table-io-3">**表 I/O-3：`FilterInputStream` 类型**</span>
 
 |           类            | 功能                                                                                         | 构造器参数                                | 如何使用                                                 |
@@ -111,8 +107,6 @@ I/O 流屏蔽了实际的 I/O 设备中处理数据的细节：
 |   `DataOutputStream`   | 与 `DataInputStream` 搭配使用，因此可以按照移植方式向流中写入基本数据类型（`int`、`char`、`long` 等） | `OutputStream`                                                          | 包含用于写入基本数据类型的全部接口                            |
 |     `PrintStream`      | 用于产生格式化输出。其中 `DataOutputStream` 处理数据的存储，`PrintStream` 处理显示                    | `OutputStream`，可以用 `boolean` 值指示是否每次换行时清空缓冲区（可选） | 应该是对 `OutputStream` 对象的 `final` 封装。可能会经常用到它 |
 | `BufferedOutputStream` | 使用它以避免每次发送数据时都进行实际的写操作。代表“使用缓冲区”。可以调用 `flush()` 清空缓冲区         | `OutputStream`，可以指定缓冲区大小（可选）                              | 本质上并不提供接口，只是向进程添加缓冲功能。与接口对象搭配    |
-
-<!-- Readers & Writers -->
 
 ## Reader 和 Writer
 
@@ -184,8 +178,6 @@ Java 5 添加了几种 `PrintWriter` 构造器，以便在将输出写入时简�
 
 特别是 `DataOutputStream`，在使用时没有任何变化；因此如果想以可传输的格式存储和检索数据，请用 `InputStream` 和 `OutputStream` 继承体系。
 
-<!-- Off By Itself: RandomAccessFile -->
-
 ## RandomAccessFile 类
 
 `RandomAccessFile` 适用于由大小已知的记录组成的文件，所以我们可以使用 `seek()` 将文件指针从一条记录移动到另一条记录，然后对记录进行读取和修改。文件中记录的大小不一定都相同，只要我们能确定那些记录有多大以及它们在文件中的位置即可。
@@ -195,8 +187,6 @@ Java 5 添加了几种 `PrintWriter` 构造器，以便在将输出写入时简�
 从本质上来讲，`RandomAccessFile` 的工作方式类似于把 `DataIunputStream` 和 `DataOutputStream` 组合起来使用。另外它还有一些额外的方法，比如使用 `getFilePointer()` 可以得到当前文件指针在文件中的位置，使用 `seek()` 可以移动文件指针，使用 `length()` 可以得到文件的长度。另外，其构造器还需要传入第二个参数（和 C 语言中的 `fopen()` 相同）用来表示我们是准备对文件进行 “随机读”（r）还是“读写”（rw）。它并不支持只写文件，从这点来看，如果当初 `RandomAccessFile` 能设计成继承自 `DataInputStream`，可能也是个不错的实现方式。
 
 在 Java 1.4 中，`RandomAccessFile` 的大多数功能（但不是全部）都被 nio 中的**内存映射文件**（mmap）取代，详见[附录：新 I/O](./Appendix-New-IO.md)。
-
-<!-- Typical Uses of I/O Streams -->
 
 ## IO 流典型用途
 

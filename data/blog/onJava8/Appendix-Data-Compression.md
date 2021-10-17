@@ -1,5 +1,3 @@
-<!-- Appendix: Data Compression -->
-
 # 附录:数据压缩
 
 Java I/O 类库提供了可以读写压缩格式流的类。你可以将其他 I/O 类包装起来用于提供压缩功能。
@@ -165,8 +163,6 @@ public class ZipCompress {
 要读取校验和，你必须以某种方式访问关联的 **Checksum** 对象。这里保留了对 **CheckedOutputStream** 和 **CheckedInputStream** 对象的引用，但你也可以保持对 **Checksum** 对象的引用。 Zip 流中的一个令人困惑的方法是 `setComment()`。如 **ZipCompress** 所示。在 Java 中，你可以在编写文件时设置注释，但是没有办法恢复 **ZipInputStream** 中的注释。注释似乎仅通过 **ZipEntry** 在逐个条目的基础上完全支持。
 
 使用 GZIP 或 Zip 库时，你不仅被限制于文件——你可以压缩任何内容，包括通过网络连接发送的数据。
-
-<!-- Java Archives (Jars) -->
 
 ## Java 的 jar
 

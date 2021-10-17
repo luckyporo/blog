@@ -1,5 +1,3 @@
-<!-- Appendix: The Positive Legacy of C++ and Java -->
-
 # 附录:C++和 Java 的优良传统
 
 > 在各种讨论声中，有一些人认为 C++是一种设计糟糕的语言。 我认为理解 C++和 Java 语言的选择有助于了解更大的视角。

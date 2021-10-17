@@ -1,10 +1,6 @@
-<!-- Appendix: Understanding equals() and hashCode() -->
-
 # 附录:理解 equals 和 hashCode 方法
 
 假设有一个容器使用 hash 函数，当你创建一个放到这个容器时，你必须定义 **hashCode()** 函数和 **equals()** 函数。这两个函数一起被用于 hash 容器中的查询操作。
-
-<!-- A Canonical equals() -->
 
 ## equals 规范
 
@@ -274,8 +270,6 @@ Expected false, got false
 ```
 
 注意 super.equals()这个调用，没有必要重新发明它（因为你不总是有权限访问基类所有的必要字段）
-
-<!--Equality Across Subtypes -->
 
 ### 不同子类的相等性
 

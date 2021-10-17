@@ -31,8 +31,6 @@ OO（object oriented，面向对象）是抽象数据，FP（functional programm
 
 FP 思想值得融入非 FP 语言，如 Python。Java 8 也从中吸收并支持了 FP。我们将在此章探讨。
 
-<!-- Old vs. New -->
-
 ## 新旧对比
 
 通常，传递给方法的数据不同，结果不同。如果我们希望方法在调用时行为不同，该怎么做呢？结论是：只要能将代码传递给方法，我们就可以控制它的行为。此前，我们通过在方法中创建包含所需行为的对象，然后将该对象传递给我们想要控制的方法来完成此操作。下面我们用传统形式和 Java 8 的方法引用、Lambda 表达式分别演示。代码示例：
@@ -292,8 +290,6 @@ public class RecursiveFibonacci {
 ```
 
 将 `Fibonacci` 序列中的最后两个元素求和来产生下一个元素。
-
-<!-- method references-->
 
 ## 方法引用
 
@@ -924,8 +920,6 @@ public interface IntToDoubleFunction {
 
 当然，如果因为缺少针对基本类型的函数式接口造成了性能问题，你可以轻松编写自己的接口（ 参考 Java 源代码）——尽管这里出现性能瓶颈的可能性不大。
 
-<!-- Higher-Order Functions-->
-
 ## 高阶函数
 
 这个名字可能听起来令人生畏，但是：[高阶函数](https://en.wikipedia.org/wiki/Higher-order_function)（Higher-order Function）只是一个消费或产生函数的函数。
@@ -1480,8 +1474,6 @@ Lambda 表达式和方法引用并没有将 Java 转换成函数式语言，而�
 但是，Lambdas 和方法引用远非完美，我们永远要为 Java 设计者早期的草率决定付出代价。特别是没有泛型 Lambda，所以 Lambda 在 Java 中并非一等公民。虽然我不否认 Java 8 的巨大改进，但这意味着和许多 Java 特性一样，它终究还是会让人感觉沮丧和鸡肋。
 
 当你遇到学习困难时，请记住通过 IDE（NetBeans、IntelliJ Idea 和 Eclipse）获得帮助，因为 IDE 可以智能提示你何时使用 Lambda 表达式或方法引用，甚至有时还能为你优化代码。
-
-<!--下面是脚注-->
 
 [^1]: 功能粘贴在一起的方法的确有点与众不同，但它仍不失为一个库。
 [^2]: 例如,这个电子书是利用 [Pandoc](http://pandoc.org/) 制作出来的，它是用纯函数式语言 [Haskell](https://www.haskell.org/) 编写的一个程序 。

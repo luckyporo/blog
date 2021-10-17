@@ -694,8 +694,6 @@ class Lisa extends Homer {
 
 **{WillNotCompile}** 标记将该文件排除在本书的 **Gradle** 构建之外，但是如果你手工编译它，你将看到:method does not override a method from its superclass.方法不会重写超类中的方法， **@Override** 注解能防止你意外地重载。
 
-<!-- Choosing Composition vs. Inheritance -->
-
 ## 组合与继承的选择
 
 组合和继承都允许在新类中放置子对象（组合是显式的，而继承是隐式的）。你或许想知道这二者之间的区别，以及怎样在二者间做选择。

@@ -23,8 +23,6 @@ MyType aReference;
 
 尽管在 Java 中没有直接的关键字支持[^1]，但集合类仍然是可以显著增强编程能力的基本工具。在本章中，将介绍 Java 集合类库的基本知识，并重点介绍一些典型用法。这里将专注于在日常编程中使用的集合。稍后，在[附录：集合主题]()中，还将学习到其余的那些集合和相关功能，以及如何使用它们的更多详细信息。
 
-<!-- Generics and Type-Safe Collections -->
-
 ## 泛型和类型安全的集合
 
 使用 Java 5 之前的集合的一个主要问题是编译器允许你向集合中插入不正确的类型。例如，考虑一个 **Apple** 对象的集合，这里使用最基本最可靠的 **ArrayList** 。现在，可以把 **ArrayList** 看作“可以自动扩充自身尺寸的数组”来看待。使用 **ArrayList** 相当简单：创建一个实例，用 `add()` 插入对象；然后用 `get()` 来访问这些对象，此时需要使用索引，就像数组那样，但是不需要方括号[^2]。 **ArrayList** 还有一个 `size()` 方法，来说明集合中包含了多少个元素，所以不会不小心因数组越界而引发错误（通过抛出*运行时异常*，[异常]()章节介绍了异常）。
@@ -1236,8 +1234,6 @@ C B A A
 
 **Integer** ， **String** 和 **Character** 可以与 **PriorityQueue** 一起使用，因为这些类已经内置了自然排序。如果想在 **PriorityQueue** 中使用自己的类，则必须包含额外的功能以产生自然排序，或者必须提供自己的 **Comparator** 。在[附录：集合主题]()中有一个更复杂的示例来演示这种情况。
 
-<!-- Collection vs. Iterator -->
-
 ## 集合与迭代器
 
 **Collection** 是所有序列集合共有的根接口。它可能会被认为是一种“附属接口”（incidental interface），即因为要表示其他若干个接口的共性而出现的接口。此外，**java.util.AbstractCollection** 类提供了 **Collection** 的默认实现，你可以创建 **AbstractCollection** 的子类型来避免不必要的代码重复。
@@ -1379,8 +1375,6 @@ public class NonCollectionSequence extends PetSequence {
 ```
 
 生成 **Iterator** 是将序列与消费该序列的方法连接在一起的耦合度最小的方式，并且与实现 **Collection** 相比，它在序列类上所施加的约束也少得多。
-
-<!-- for-in and Iterators -->
 
 ## for-in 和迭代器
 

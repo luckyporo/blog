@@ -1554,8 +1554,6 @@ NeedsCleanup 4 disposed
 
 注意，如果 dispose() 可以抛出异常，那么你可能需要额外的 try 语句块。基本上，你应该仔细考虑所有的可能性，并确保正确处理每一种情况。
 
-<!-- Try-With-Resources -->
-
 ## Try-With-Resources 用法
 
 上一节的内容可能让你有些头疼。在考虑所有可能失败的方法时，找出放置所有 try-catch-finally 块的位置变得令人生畏。确保没有任何故障路径，使系统远离不稳定状态，这非常具有挑战性。

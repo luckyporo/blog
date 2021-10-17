@@ -1,5 +1,3 @@
-<!-- Appendix: Becoming a Programmer -->
-
 # 附录:成为一名程序员
 
 > 我分别于 2003，2006，2007 和 2009 年撰写的博客文章混搭
@@ -91,11 +89,7 @@
 - James Shore: [Five Design Skills Every Programmer Should Have](https://www.jamesshore.com/Blog/Five-Design-Skills.html).
 - Steve Yegge: [The Truth About Interviewing](http://steve-yegge.blogspot.com/2006/03/truth-about-interviewing.html).
 
-<!-- The Mythical 5% -->
-
 ## 百分之五的神话
-
-<!-- Writing Software Is Like … Writing -->
 
 ## 重在动手
 

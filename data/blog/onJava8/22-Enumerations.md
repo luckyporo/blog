@@ -253,8 +253,6 @@ The traffic light is RED
 
 编译器并没有抱怨 switch 中没有 default 语句，但这并不是因为每一个 Signal 都有对应的 case 语句。如果你注释掉其中的某个 case 语句，编译器同样不会抱怨什么。这意味着，你必须确保自己覆盖了所有的分支。但是，如果在 case 语句中调用 return，那么编译器就会抱怨缺少 default 语句了。这与是否覆盖了 enum 的所有实例无关。
 
-<!-- The Mystery of values() -->
-
 ## values 方法的神秘之处
 
 前面已经提到，编译器为你创建的 enum 类都继承自 Enum 类。然而，如果你研究一下 Enum 类就会发现，它并没有 values() 方法。可我们明明已经用过该方法了，难道存在某种“隐藏的”方法吗？我们可以利用反射机制编写一个简单的程序，来查看其中的究竟：
@@ -387,8 +385,6 @@ Expected: java.lang.NullPointerException
 ```
 
 只不过，此时该方法返回 null，所以当你试图使用其返回的结果时会发生异常。
-
-<!-- Implements, not Inherits -->
 
 ## 实现而非继承
 
@@ -887,8 +883,6 @@ Expected: java.lang.NullPointerException
 main() 方法的最后部分说明，enum 的每个实例作为一个键，总是存在的。但是，如果你没有为这个键调用 put() 方法来存入相应的值的话，其对应的值就是 null。
 
 与常量相关的方法（constant-specific methods 将在下一节中介绍）相比，EnumMap 有一个优点，那 EnumMap 允许程序员改变值对象，而常量相关的方法在编译期就被固定了。稍后你会看到，在你有多种类型的 enum，而且它们之间存在互操作的情况下，我们可以用 EnumMap 实现多路分发（multiple dispatching）。
-
-<!-- Constant-Specific Methods -->
 
 ## 常量特定方法
 

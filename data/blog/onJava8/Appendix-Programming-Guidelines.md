@@ -1,5 +1,3 @@
-<!-- Appendix: Programming Guidelines -->
-
 # 附录:编程指南
 
 > 本附录包含了有助于指导你进行低级程序设计和编写代码的建议。

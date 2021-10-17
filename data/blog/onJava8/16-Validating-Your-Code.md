@@ -881,8 +881,6 @@ public class NonNullConstruction {
 
 所有的 Guava 前置条件对于基本类型和对象都有必要的重载。
 
-<!-- Test-Driven Development -->
-
 ## 测试驱动开发
 
 之所以可以有测试驱动开发（TDD）这种开发方式，是因为如果你在设计和编写代码时考虑到了测试，那么你不仅可以写出可测试性更好的代码，而且还可以得到更好的代码设计。 一般情况下这个说法都是正确的。 一旦我想到“我将如何测试我的代码？”，这个想法将使我的代码产生变化，并且往往是从“可测试”转变为“可用”。
@@ -1274,7 +1272,7 @@ public class SLF4JLevels {
 你可以按等级来查找消息。 级别通常设置在单独的配置文件中，因此你可以重新配置而无需重新编译。 配置文件格式取决于你使用的后端日志包实现。 如 **logback** 使用 XML ：
 
 ```xml
-<!-- validating/logback.xml -->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<appender name="STDOUT"
