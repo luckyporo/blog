@@ -4,8 +4,6 @@
 
 > 本附录是一些比[第十二章 集合]()中介绍的更高级的内容。
 
-<!-- Sample Data -->
-
 ## 示例数据
 
 这里创建一些样本数据用于集合示例。 以下数据将颜色名称与 HTML 颜色的 RGB 值相关联。请注意，每个键和值都是唯一的：
@@ -361,8 +359,6 @@ Cyan
 
 可以看到，使用 **LinkedHashMap** 确实能够保留 **HTMLColors.ARRAY** 的顺序。
 
-<!-- List Behavior -->
-
 ## List 行为
 
 **Lists** 是存储和检索对象（次于数组）的最基本方法。基本列表操作包括：
@@ -545,8 +541,6 @@ Bisque, Black, BlanchedAlmond, Blue]
 
 在 `basicTest()` 和 `iterMotion()` 中，方法调用是为了展示正确的语法，尽管获取了返回值，但不会使用它。在某些情况下，根本不会去获取返回值。在使用这些方法之前，请查看 JDK 文档中这些方法的完整用法。
 
-<!-- Set Behavior -->
-
 ## Set 行为
 
 **Set** 的主要用处是测试成员身份，不过也可以将其用作删除重复元素的工具。如果不关心元素顺序或并发性， **HashSet** 总是最好的选择，因为它是专门为了快速查找而设计的（这里使用了在[附录：理解 equals 和 hashCode 方法]()章节中探讨的散列函数）。
@@ -655,8 +649,6 @@ Teal
 
 在附录的最后，我们将了解在非 **HashSet** 实现的 **Set** 上添加额外排序的性能成本，以及不同实现中的任何其他功能的成本。
 
-<!-- Using Functional Operations with any Map -->
-
 ## 在 Map 中使用函数式操作
 
 与 **Collection** 接口一样，`forEach()` 也内置在 **Map** 接口中。但是如果想要执行任何其他的基本功能操作，比如 `map()` ，`flatMap()` ，`reduce()` 或 `filter()` 时，该怎么办？ 查看 **Map** 接口发现并没有这些。
@@ -702,8 +694,6 @@ HotViolet
 ```
 
 生成 **Stream** 后，所有的基本功能方法，甚至更多就都可以使用了。
-
-<!-- Selecting Parts of a Map -->
 
 ## 选择 Map 片段
 
@@ -810,8 +800,6 @@ public class NavMap {
 `ceilingEntry()` 从当前键值对向上搜索下一个键值对，`floorEntry()` 则是向下搜索。 `descendingMap()` 反转了 **NavigableMap** 的顺序。
 
 如果需要通过分割 **Map** 来简化所正在解决的问题，则 **NavigableMap** 可以做到。具有类似的功能的其它集合实现也可以用来帮助解决问题。
-
-<!-- Filling Collections -->
 
 ## 填充集合
 
@@ -1090,8 +1078,6 @@ uxsz=2}
 ztdv=6}
 */
 ```
-
-<!-- Custom Collection and Map using Flyweight -->
 
 ## 使用享元（Flyweight）自定义 Collection 和 Map
 
@@ -1603,8 +1589,6 @@ Brasilia
 
 `select()` 方法生成一个包含所需大小的 **EntrySet** 的 **FlyweightMap** ，这用于在主方法中演示的重载的 `capitals()` 和 `names()` 方法。
 
-<!-- Collection Functionality -->
-
 ## 集合功能
 
 下面这个表格展示了可以对 **Collection** 执行的所有操作（不包括自动继承自 **Object** 的方法），因此，可以用 **List** ， **Set** ， **Queue** 或 **Deque** 执行这里的所有操作（这些接口可能也提供了一些其他的功能）。**Map** 不是从 **Collection** 继承的，所以要单独处理它。
@@ -1767,8 +1751,6 @@ after c.clear():[]
 
 为了只演示 **Collection** 接口的方法，而没有其它额外的内容，所以这里创建包含不同数据集的 **ArrayList** ，并向上转型为 **Collection** 对象。
 
-<!-- Optional Operations -->
-
 ## 可选操作
 
 在 **Collection** 接口中执行各种添加和删除操作的方法是 _可选操作_ （optional operations）。这意味着实现类不需要为这些方法提供功能定义。
@@ -1784,8 +1766,6 @@ after c.clear():[]
 2. 当不支持某个操作时， **UnsupportedOperationException** 应该出现在实现阶段，而不是在将产品发送给客户之后。毕竟，这个异常表示编程错误：错误地使用了一个具体实现。
 
 值得注意的是，不支持的操作只能在运行时检测到，因此这代表动态类型检查。如果你来自像 C++ 这样的静态类型语言，Java 可能看起来只是另一种静态类型语言。当然， Java 肯定有静态类型检查，但它也有大量的动态类型，因此很难说它只是静态语言或动态语言。一旦你开始注意到这一点，你就会开始看到 Java 中动态类型检查的其他示例。
-
-<!-- Unsupported Operations -->
 
 ### 不支持的操作
 
@@ -1860,8 +1840,6 @@ List.set(): java.lang.UnsupportedOperationException
 `test()` 中的最后一个 `check()` 用于测试**List** 的 `set()` 方法。这里，“不支持的操作”技术的粒度（granularity）就派上用场了，得到的“接口”可以通过一种方法在 `Arrays.asList()` 返回的对象和 `Collections.unmodifiableList()` 返回的对象之间变换。 `Arrays.asList()` 返回固定大小的 **List** ，而 `Collections.unmodifiableList()` 生成无法更改的 **List** 。如输出中所示， `Arrays.asList()` 返回的 **List** 中的元素是可以修改的，因为这不会违反该 **List** 的“固定大小”特性。但很明显， `unmodifiableList()` 的结果不应该以任何方式修改。如果使用接口来描述，则需要两个额外的接口，一个具有可用的 `set()` 方法，而另一个没有。 **Collection** 的各种不可修改的子类型都将需要额外的接口。
 
 如果一个方法将一个集合作为它的参数，那么它的文档应该说明必须实现哪些可选方法。
-
-<!-- Sets and Storage Order -->
 
 ## Set 和存储顺序
 
@@ -1989,8 +1967,6 @@ HashType cannot be cast to java.lang.Comparable
 
 如果尝试在 **TreeSet** 中使用没有实现 **Comparable** 接口的类型，则会得到更明确的结果：当 **TreeSet** 尝试将对象用作一个 **Comparable** 时，将会抛出异常。
 
-<!-- SortedSet -->
-
 ### SortedSet
 
 **SortedSet** 中的元素保证按排序规则顺序， **SortedSet** 接口中的以下方法可以产生其他功能：
@@ -2048,8 +2024,6 @@ two
 
 注意， **SortedSet** 表示“根据对象的比较函数进行排序”，而不是“根据插入顺序”。可以使用 **LinkedHashSet** 保留元素的插入顺序。
 
-<!-- Queues -->
-
 ## 队列
 
 有许多 **Queue** 实现，其中大多数是为并发应用程序设计的。许多实现都是通过排序行为而不是性能来区分的。这是一个涉及大多数 **Queue** 实现的基本示例，包括基于并发的队列。队列将元素从一端放入并从另一端取出：
@@ -2105,8 +2079,6 @@ public class QueueBehavior {
 ```
 
 **Deque** 接口也继承自 **Queue** 。 除优先级队列外，**Queue** 按照元素的插入顺序生成元素。 在此示例中，**SynchronousQueue** 不会产生任何结果，因为它是一个阻塞队列，其中每个插入操作必须等待另一个线程执行相应的删除操作，反之亦然。
-
-<!-- Priority Queues -->
 
 ### 优先级队列
 
@@ -2169,8 +2141,6 @@ C4: Empty trash
 ```
 
 这展示了通过优先级队列自动排序待办事项。
-
-<!-- Deque -->
 
 ### 双端队列
 
@@ -2248,8 +2218,6 @@ ConcurrentLinkedDeque
 
 我只使用了 **Deque** 方法的“offer”和“poll”版本，因为当 **LinkedBlockingDeque** 的大小有限时，这些方法不会抛出异常。请注意， **LinkedBlockingDeque** 仅填充到它的限制大小为止，然后忽略额外的添加。
 
-<!-- Understanding Maps -->
-
 ## 理解 Map
 
 正如在[第十二章 集合]()章节中所了解到的，**Map**（也称为 _关联数组_ ）维护键值关联（对），因此可以使用键来查找值。标准 Java 库包含不同的 **Map** 基本实现，例如 **HashMap** ， **TreeMap** ， **LinkedHashMap** ， **WeakHashMap** ， **ConcurrentHashMap** 和 **IdentityHashMap** 。 它们都具有相同的基本 **Map** 接口，但它们的行为不同，包括效率，键值对的保存顺序和呈现顺序，保存对象的时间，如何在多线程程序中工作，以及如何确定键的相等性。 **Map** 接口的实现数量应该告诉你一些关于此工具重要性的信息。
@@ -2325,8 +2293,6 @@ dancing
 要使用 `get()` 方法，可以传入要查找的 **key** ，它将生成相关联的值作为结果，如果找不到则返回 **null** 。 `get()` 方法使用可能是效率最低的方法来定位值：从数组的头部开始并使用 `equals()` 来比较键。但这里是侧重于简单，而不是效率。
 
 这个版本很有启发性，但它不是很有效，而且它只有一个固定的大小，这是不灵活的。幸运的是， **java.util** 中的那些 **Map** 没有这些问题。
-
-<!-- Performance -->
 
 ### 性能
 
@@ -2429,8 +2395,6 @@ map.isEmpty(): true
 
 程序的其余部分提供了每个 **Map** 操作的简单示例，并测试了每种基本类型的 **Map** 。
 
-<!-- SortedMap -->
-
 ### SortedMap
 
 使用 **SortedMap** （由 **TreeMap** 或 **ConcurrentSkipListMap** 实现），键保证按排序顺序，这允许在 **SortedMap** 接口中使用这些方法来提供其他功能：
@@ -2488,8 +2452,6 @@ public class SortedMapDemo {
 
 这里，键值对按照键的排序顺序进行排序。因为 **TreeMap** 中存在顺序感，所以“位置”的概念很有意义，因此可以拥有第一个、最后一个元素或子图。
 
-<!-- LinkedHashMap -->
-
 ### LinkedHashMap
 
 **LinkedHashMap** 针对速度进行哈希处理，但在遍历期间也会按插入顺序生成键值对（ `System.out.println()` 可以遍历它，因此可以看到遍历的结果）。 此外，可以在构造方法中配置 **LinkedHashMap** 以使用基于访问的 _最近最少使用_（LRU） 算法，因此未访问的元素（因此是删除的候选者）会出现在列表的前面。 这样可以轻松创建一个能够定期清理以节省空间的程序。下面是一个显示这两个功能的简单示例：
@@ -2526,8 +2488,6 @@ public class LinkedHashMapDemo {
 ```
 
 这些键值对确实是按照插入顺序进行遍历，即使对于 LRU 版本也是如此。 但是，在 LRU 版本中访问前六项（仅限）后，最后三项将移至列表的前面。然后，当再次访问“ **0** ”后，它移动到了列表的后面。
-
-<!-- Utilities -->
 
 ## 集合工具类
 
@@ -2651,8 +2611,6 @@ arrayList: [snap, snap, snap]
 
 输出解释了每种实用方法的行为。请注意由于大小写的缘故，普通版本的 `min()` 和 `max()` 与带有 **String.CASE_INSENSITIVE_ORDER** 比较器参数的版本的区别。
 
-<!-- Sorting and Searching Lists -->
-
 ### 排序和搜索列表
 
 用于执行排序和搜索 **List** 的实用工具程序与用于排序对象数组的程序具有相同的名字和方法签名，只不过是 **Collections** 的静态方法而不是 **Arrays** 。 这是一个使用 **Utilities.java** 中的 **list** 数据的示例：
@@ -2718,8 +2676,6 @@ Location of three is 7, list.get(7) = three
 
 该程序还演示了 **Collections** 中的 `shuffle()` 方法，该方法随机打乱了 **List** 的顺序。 **ListIterator** 是在打乱后的列表中的特定位置创建的，用于从该位置删除元素，直到列表末尾。
 
-<!-- Making a Collection or Map Unmodifiable -->
-
 ### 创建不可修改的 Collection 或 Map
 
 通常，创建 **Collection** 或 **Map** 的只读版本会很方便。 **Collections** 类通过将原始集合传递给一个方法然后返回一个只读版本的集合。 对于 **Collection** （如果不能将 **Collection** 视为更具体的类型）， **List** ， **Set** 和 **Map** ，这类方法有许多变体。这个示例展示了针对每种类型，正确构建只读版本集合的方法：
@@ -2784,8 +2740,6 @@ BURUNDI=Bujumbura}
 
 在每种情况下，在将集合设置为只读之前，必须使用有意义的数据填充集合。填充完成后，最好的方法是用 “unmodifiable” 方法调用生成的引用替换现有引用。这样，一旦使得内容无法修改，那么就不会冒有意外更改内容的风险。另一方面，此工具还允许将可修改的集合保留为类中的**私有**集合，并从方法调用处返回对该集合的只读引用。所以，你可以在类内修改它，但其他人只能读它。
 
-<!-- Synchronizing a Collection or Map -->
-
 ### 同步 Collection 或 Map
 
 **synchronized** 关键字是多线程主题的重要组成部分，更复杂的内容在[第二十四章 并发编程]()中介绍。在这里，只需要注意到 **Collections** 类包含一种自动同步整个集合的方法。 语法类似于 “unmodifiable” 方法：
@@ -2815,8 +2769,6 @@ public class Synchronization {
 ```
 
 最好立即通过适当的 “synchronized” 方法传递新集合，如上所示。这样，就不会意外地暴露出非同步版本。
-
-<!-- Fail Fast -->
 
 #### Fail Fast
 
@@ -2849,8 +2801,6 @@ java.util.ConcurrentModificationException
 异常来自于在从集合中获得迭代器之后，又尝试在集合中添加元素。程序的两个部分可能会修改同一个集合，这种可能性的存在会产生不确定状态，因此异常会通知你更改代码。在这种情况下，应先将所有元素添加到集合，然后再获取迭代器。
 
 **ConcurrentHashMap** ， **CopyOnWriteArrayList** 和 **CopyOnWriteArraySet** 使用了特定的技术来避免产生 **ConcurrentModificationException** 异常。
-
-<!-- Holding References -->
 
 ## 持有引用
 
@@ -2958,8 +2908,6 @@ In queue: null
 ```
 
 当运行此程序（将输出重定向到文本文件以查看页面中的输出）时，将会看到对象是被垃圾收集了的，虽然仍然可以通过 **Reference** 对象访问它们（使用 `get()` 来获取实际的对象引用）。 还可以看到 **ReferenceQueue** 始终生成包含 **null** 对象的 **Reference** 。 要使用它，请从特定的 **Reference** 类继承，并为新类添加更多有用的方法。
-
-<!-- The WeakHashMap -->
 
 ### WeakHashMap
 
@@ -3072,13 +3020,9 @@ REPUBLIC, CHAD,
 
 最后一行创建一个 **ArrayList** ，并使用 `enumeration() ` 来将 **ArrayList** 适配为一个 **Enumeration** 。 因此，如果有旧代码需要使用 **Enumeration** ，你仍然可以使用新集合。
 
-<!-- Hashtable -->
-
 ### Hashtable
 
 正如你在本附录中的性能比较中所看到的，基本的 **Hashtable** 与 **HashMap** 非常相似，甚至方法名称都相似。在新代码中没有理由使用 **Hashtable** 而不是 **HashMap** 。
-
-<!-- Stack -->
 
 ### Stack
 
@@ -3150,8 +3094,6 @@ MARCH FEBRUARY JANUARY
 **String** 形式是由 **Month** 中的枚举常量生成的，使用 `push()` 压入到栈中，然后使用 `pop()` 从栈顶部取出。为了说明一点，将 **Vector** 的操作也在 **Stack** 对象上执行， 这是可能的，因为凭借继承， **Stack** 是 **Vector** 。 因此，可以在 **Vector** 上执行的所有操作也可以在 **Stack** 上执行，例如 `elementAt()` 。
 
 如前所述，在需要栈行为时使用 **LinkedList** ，或者从 **LinkedList** 类创建的 **onjava.Stack** 类。
-
-<!-- BitSet -->
 
 ### BitSet
 
@@ -3243,8 +3185,6 @@ set bit 1023: {1023, 1024}
 随机数生成器用于创建随机 **byte** ， **short** 和 **int** ，并且每个都在 **BitSet** 中转换为相应的位模式。这样可以正常工作，因为 **BitSet** 是 64 位，所以这些都不会导致它的大小增加，然后创建更大的 **BitSet** 。 请注意， **BitSet** 会根据需要进行扩展。
 
 对于可以命名的固定标志集， **EnumSet** （参见[第二十二章：枚举]()章节）通常比 **BitSet** 更好，因为 **EnumSet** 允许操作名称而不是数字位位置，从而可以减少错误。 **EnumSet** 还可以防止意外地添加新的标记位置，这可能会导致一些严重的，难以发现的错误。使用 **BitSet** 而不是 **EnumSet** 的唯一原因是，不知道在运行时需要多少标志，或者为标志分配名称是不合理的，或者需要 **BitSet** 中的一个特殊操作（请参阅 **BitSet** 和 **EnumSet** 的 JDK 文档）。
-
-<!-- Summary -->
 
 ## 本章小结
 

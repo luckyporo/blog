@@ -709,8 +709,6 @@ int c = rand.nextInt(26) + 'a';
 
 此处 `Random.nextInt()` 将产生 0~25 之间的一个随机 **int** 值，它将被加到 `a` 上。这表示 `a` 将自动被转换为 **int** 以执行加法。为了把 `c` 当作字符打印，必须将其转型为 **char**；否则，将会输出整数。
 
-<!-- Switching on Strings -->
-
 ## switch 字符串
 
 Java 7 增加了在字符串上 **switch** 的用法。 下例展示了从一组 **String** 中选择可能值的传统方法，以及新式方法：

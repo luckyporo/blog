@@ -81,8 +81,6 @@ public class ImperativeRandoms {
 
 另一个重要方面，流是懒加载的。这代表着它只在绝对必要时才计算。你可以将流看作“延迟列表”。由于计算延迟，流使我们能够表示非常大（甚至无限）的序列，而不需要考虑内存问题。
 
-<!-- Java 8 Stream Support -->
-
 ## 流支持
 
 Java 设计者面临着这样一个难题：现存的大量类库不仅为 Java 所用，同时也被应用在整个 Java 生态圈数百万行的代码中。如何将一个全新的流的概念融入到现有类库中呢？
@@ -94,8 +92,6 @@ Java 设计者面临着这样一个难题：现存的大量类库不仅为 Java 
 Java 8 采用的解决方案是：在[接口](10-Interfaces.md)中添加被 `default`（`默认`）修饰的方法。通过这种方案，设计者们可以将流式（_stream_）方法平滑地嵌入到现有类中。流方法预置的操作几乎已满足了我们平常所有的需求。流操作的类型有三种：创建流，修改流元素（中间操作， Intermediate Operations），消费流元素（终端操作， Terminal Operations）。最后一种类型通常意味着收集流元素（通常是汇入一个集合）。
 
 下面我们来看下每种类型的流操作。
-
-<!-- Stream Creation -->
 
 ## 流创建
 
@@ -733,8 +729,6 @@ Not much of a cheese shop really is it
 
 幸运的是，我们稍后就会知道如何解决这个问题。
 
-<!-- Intermediate Operations -->
-
 ## 中间操作
 
 中间操作用于从一个流中获取对象，并将对象作为另一个流从后端输出，以连接到其他操作。
@@ -1139,8 +1133,6 @@ is it
 
 在 `System.out.format()` 中的 `%s` 表明参数为 **String** 类型。
 
-<!-- Optional -->
-
 ## Optional 类
 
 在我们学习终端操作（Terminal Operations）之前，我们必须考虑在一个空流中获取元素会发生什么。我们喜欢沿着“快乐路径”[^1]把流连接起来，同时假设流不会中断。然而，在流中放置 `null` 却会轻易令其中断。那么是否存在某种对象，可以在持有流元素的同时，即使在我们查找的元素不存在时，也能友好地对我们进行提示（也就是说，不会产生异常）？
@@ -1229,8 +1221,6 @@ Nothing inside!
 
 当你接收到 **Optional** 对象时，应首先调用 `isPresent()` 检查其中是否包含元素。如果存在，可使用 `get()` 获取。
 
-<!-- Convenience Functions -->
-
 ### 便利函数
 
 有许多便利函数可以解包 **Optional** ，这简化了上述“对所包含的对象的检查和执行操作”的过程：
@@ -1309,8 +1299,6 @@ Caught java.lang.Exception: Supplied
 `test()` 通过传入所有方法都适用的 **Consumer** 来避免重复代码。
 
 `orElseThrow()` 通过 **catch** 关键字来捕获抛出的异常。更多细节，将在 [异常](./15-Exceptions.md) 这一章节中学习。
-
-<!-- Creating Optionals -->
 
 ### 创建 Optional
 
@@ -1609,8 +1597,6 @@ Optional.empty
 
 同 `map()`，`flatMap()` 将提取非空 **Optional** 的内容并将其应用在映射函数。唯一的区别就是 `flatMap()` 不会把结果包装在 **Optional** 中，因为映射函数已经被包装过了。在如上示例中，我们已经在每一个映射函数中显式地完成了包装，但是很显然 `Optional.flatMap()` 是为那些自己已经生成 **Optional** 的函数而设计的。
 
-<!-- Streams of Optionals -->
-
 ### Optional 流
 
 假设你的生成器可能产生 `null` 值，那么当用它来创建流时，你会自然地想到用 **Optional** 来包装元素。如下是它的样子，代码示例：
@@ -1686,13 +1672,9 @@ Signal(dash)
 
 在这里，我们使用 `filter()` 来保留那些非空 **Optional**，然后在 `map()` 中使用 `get()` 获取元素。由于每种情况都需要定义“空值”的含义，所以通常我们要为每个应用程序采用不同的方法。
 
-<!-- Terminal Operations -->
-
 ## 终端操作
 
 以下操作将会获取流的最终结果。至此我们无法再继续往后传递流。可以说，终端操作（Terminal Operations）总是我们在流管道中所做的最后一件事。
-
-<!-- Convert to an Array -->
 
 ### 数组
 
@@ -1715,8 +1697,6 @@ public class RandInts {
 ```
 
 上例将 100 个数值范围在 0 到 1000 之间的随机数流转换成为数组并将其存储在 `rints` 中。这样一来，每次调用 `rands()` 的时候可以重复获取相同的整数流。
-
-<!-- Apply a Final Operation to Every Element -->
 
 ### 循环
 
@@ -1762,8 +1742,6 @@ public class ForEach {
 为了方便测试不同大小的流，我们抽离出了 `SZ` 变量。然而即使 `SZ` 值为 14 也产生了有趣的结果。在第一个流中，未使用 `parallel()` ，因此以元素从 `rands()`出来的顺序输出结果。在第二个流中，引入`parallel()` ，即便流很小，输出的结果的顺序也和前面不一样。这是由于多处理器并行操作的原因，如果你将程序多运行几次，你会发现输出都不相同，这是多处理器并行操作的不确定性造成的结果。
 
 在最后一个流中，同时使用了 `parallel()` 和 `forEachOrdered()` 来强制保持原始流顺序。因此，对非并行流使用 `forEachOrdered()` 是没有任何影响的。
-
-<!-- Collecting -->
 
 ### 集合
 
@@ -1891,8 +1869,6 @@ cheese
 
 在这里， **ArrayList** 的方法已经做了你所需要的操作，但更有可能的是，如果你必须使用这种形式的 `collect()`，就要自己创建特定的定义。
 
-<!-- Combining All Stream Elements -->
-
 ### 组合
 
 - `reduce(BinaryOperator)`：使用 **BinaryOperator** 来组合所有流中的元素。因为流可能为空，其返回值为 **Optional**。
@@ -1951,8 +1927,6 @@ Frobnitz(29)
 Lambda 表达式中的第一个参数 `fr0` 是 `reduce()` 中上一次调用的结果。而第二个参数 `fr1` 是从流传递过来的值。
 
 `reduce()` 中的 Lambda 表达式使用了三元表达式来获取结果，当 `fr0` 的 `size` 值小于 50 的时候，将 `fr0` 作为结果，否则将序列中的下一个元素即 `fr1`作为结果。当取得第一个 `size` 值小于 50 的 `Frobnitz`，只要得到这个结果就会忽略流中其他元素。这是个非常奇怪的限制， 但也确实让我们对 `reduce()` 有了更多的了解。
-
-<!-- Matching -->
 
 ### 匹配
 
@@ -2071,8 +2045,6 @@ three
 
 `reduce()` 的参数只是用最后一个元素替换了最后两个元素，最终只生成最后一个元素。如果为数字流，你必须使用相近的数字 **Optional** 类型（ numeric optional type），否则使用 **Optional** 类型，就像上例中的 `Optional<String>`。
 
-<!-- Informational -->
-
 ### 信息
 
 - `count()`：流中的元素个数。
@@ -2111,8 +2083,6 @@ you
 ```
 
 `min()` 和 `max()` 的返回类型为 **Optional**，这需要我们使用 `orElse()`来解包。
-
-<!-- Information for Numeric Streams -->
 
 ### 数字流信息
 

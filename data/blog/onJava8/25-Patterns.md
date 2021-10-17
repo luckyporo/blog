@@ -5,8 +5,6 @@ tags: ['OnJava8', 'Java']
 draft: false
 ---
 
-<!-- The Pattern Concept -->
-
 ## 概念
 
 最初，你可以将模式视为解决特定类问题的一种特别巧妙且有深刻见解的方法。这就像前辈已经从所有角度去解决问题，并提出了最通用，最灵活的解决方案。问题可能是你之前看到并解决过的问题，但你的解决方案可能没有你在模式中体现的那种完整性。
@@ -106,8 +104,6 @@ public class SingletonPattern {
 
 《设计模式》一书中每个设计模式都有单独的一个章节，每个章节都有一个或者多个例子，通常使用 C++，但有时也使用 SmallTalk。 本章不重复设计模式中显示的所有模式，因为该书独立存在，应单独研究。 相反，你会看到一些示例，可以为你提供关于模式的理解以及它们如此重要的原因。
 
-<!-- Building Application Frameworks -->
-
 ## 构建应用程序框架
 
 应用程序框架允许您从一个类或一组类开始，创建一个新的应用程序，重用现有类中的大部分代码，并根据需要覆盖一个或多个方法来定制应用程序。
@@ -172,8 +168,6 @@ Hello World!
 **customize1()** 和 **customize2()** 的定义，然后“应用程序”已经就绪运行。
 
 ![](images/designproxy.png)
-
-<!-- Fronting for an Implementation -->
 
 ## 面向实现
 
@@ -824,8 +818,6 @@ KungFuGuy now battles a NastyWeapon
 
 在这种环境中，**Player**对象与**Obstacle**对象进行交互，但是根据你所玩游戏的类型，存在不同类型的玩家和障碍物。 你可以通过选择特定的**GameElementFactory**来确定游戏的类型，然后**GameEnvironment**控制游戏的设置和玩法。 在此示例中，设置和玩法非常简单，但是这些活动（初始条件和状态变化）可以决定游戏的大部分结果。 这里，**GameEnvironment**不是为继承而设计的，尽管这样做很有意义。 它还包含“双重调度”和“工厂方法”的示例，稍后将对这两个示例进行说明。
 
-<!-- Function Objects -->
-
 ## 函数对象
 
 一个 _函数对象_ 封装了一个函数。其特点就是将被调用函数的选择与那个函数被调用的位置进行解耦。
@@ -1081,8 +1073,6 @@ Bisection.algorithm
 
 每一个 `Algorithm` 接口的实现，都实现了不同的 `algorithm()` 方法。在 `FindMinama` 中，将会创建一个算法的列表（这就是所谓的“链”），而 `minima()` 方法只是遍历这个列表，然后找到能够成功执行的算法而已。
 
-<!-- Changing the Interface -->
-
 ## 改变接口
 
 有时候我们需要解决的问题很简单，仅仅是“我没有需要的接口”而已。有两种设计模式用来解决这个问题：_适配器模式_ 接受一种类型并且提供一个对其他类型的接口。_外观模式_ 为一组类创建了一个接口，这样做只是为了提供一种更方便的方法来处理库或资源。
@@ -1230,34 +1220,20 @@ public class Facade {
 
 在开发程序的过程中，设计自己的语言并为它构建一个解释器是一件让人分心且耗时的事。最好的解决方案就是复用代码：使用一个已经构建好并被调试过的解释器。Python 语言可以免费地嵌入营利性的应用中而不需要任何的协议许可、授权费或者是任何的声明。此外，有一个完全使用 Java 字节码实现的 Python 版本（叫做 Jython）， 能够轻易地合并到 Java 程序中。Python 是一门非常易学习的脚本语言，代码的读写很有逻辑性。它支持函数与对象，有大量的可用库，并且可运行在所有的平台上。你可以在 [www.Python.org](https://www.python.org/) 上下载 Python 并了解更多信息。
 
-<!-- Callbacks -->
-
 ## 回调
-
-<!-- Multiple Dispatching -->
 
 ## 多次调度
 
-<!-- Pattern Refactoring -->
-
 ## 模式重构
-
-<!-- Abstracting Usage -->
 
 ## 抽象用法
 
-<!-- Multiple Dispatching -->
-
 ## 多次派遣
-
-<!-- The Visitor Pattern -->
 
 ## 访问者模式
 
 <!-- RTTI Considered Harmful? -->
 
 ## RTTI 的优劣
-
-<!-- Summary -->
 
 ## 本章小结

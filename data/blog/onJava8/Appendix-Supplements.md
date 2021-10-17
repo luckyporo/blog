@@ -6,8 +6,6 @@
 
 本附录介绍了这些补充内容，你可以自行决定它们是否对你有所帮助。
 
-<!-- Downloadable Supplements -->
-
 ## 可下载的补充
 
 可以从 [https://github.com/BruceEckel/OnJava8-examples](https://github.com/BruceEckel/OnJava8-examples) 免费下载本书的代码。这里包括 Gradle 构建文件和其它一些必要的支持文件，以便成功构建和执行本书中所有的示例代码。

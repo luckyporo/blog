@@ -15,8 +15,6 @@ draft: false
 1. 文件或者目录的路径；
 2. 文件本身。
 
-<!-- File and Directory Paths -->
-
 ## 文件和目录路径
 
 一个 **Path** 对象表示一个文件或者目录的路径，是一个跨操作系统（OS）和文件系统的抽象，目的是在构造路径时不必关注底层操作系统，代码可以在不进行修改的情况下运行在不同的操作系统上。**java.nio.file.Paths** 类包含一个重载方法 **static get()**，该方法接受一系列 **String** 字符串或一个*统一资源标识符*(URI)作为参数，并且进行转换返回一个 **Path** 对象：
@@ -335,8 +333,6 @@ ExtractedExamples\files\nonexistent
 
 我还为 **toRealPath()** 添加了更多的测试，这是为了扩展和规则化，防止路径不存在时抛出运行时异常。
 
-<!-- Directories -->
-
 ## 目录
 
 **Files** 工具类包含大部分我们需要的目录操作和文件操作方法。出于某种原因，它们没有包含删除目录树相关的方法，因此我们将实现并将其添加到 **onjava** 库中。
@@ -481,8 +477,6 @@ test\Hello.txt
 
 为了展示结果，我们首次使用看起来很有希望的 **newDirectoryStream()**，但事实证明这个方法只是返回 **test** 目录内容的 Stream 流，并没有更多的内容。要获取目录树的全部内容的流，请使用 **Files.walk()**。
 
-<!-- File Systems -->
-
 ## 文件系统
 
 为了完整起见，我们需要一种方法查找文件系统相关的其他信息。在这里，我们使用静态的 **FileSystems** 工具类获取"默认"的文件系统，但你同样也可以在 **Path** 对象上调用 **getFileSystem()** 以获取创建该 **Path** 的文件系统。你可以获得给定 _URI_ 的文件系统，还可以构建新的文件系统(对于支持它的操作系统)。
@@ -530,8 +524,6 @@ File Attribute Views: [owner, dos, acl, basic, user]
 ```
 
 一个 **FileSystem** 对象也能生成 **WatchService** 和 **PathMatcher** 对象，将会在接下来两章中详细讲解。
-
-<!-- Watching a Path -->
 
 ## 路径监听
 
@@ -661,8 +653,6 @@ evt.kind(): ENTRY_DELETE
 ```
 
 在 **watchDir()** 方法中给 **WatchSevice** 提供参数 **ENTRY_DELETE**，并启动一个独立的线程来监视该**Watchservice**。这里我们没有使用 **schedule()** 进行启动，而是使用 **submit()** 启动线程。我们遍历整个目录树，并将 **watchDir()** 应用于每个子目录。现在，当我们运行 **deltxtfiles()** 时，其中一个 **Watchservice** 会检测到每一次文件删除。
-
-<!-- Finding Files -->
 
 ## 文件查找
 
@@ -860,8 +850,6 @@ public class StreamInAndOut {
 ```
 
 因为我们在同一个块中执行所有操作，所以这两个文件都可以在相同的 try-with-resources 语句中打开。`PrintWriter` 是一个旧式的 `java.io` 类，允许你“打印”到一个文件，所以它是这个应用的理想选择。如果你看一下 `StreamInAndOut.txt`，你会发现它里面的内容确实是大写的。
-
-<!-- Summary -->
 
 ## 本章小结
 

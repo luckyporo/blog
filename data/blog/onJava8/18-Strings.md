@@ -9,8 +9,6 @@ draft: false
 
 在 Java 大展拳脚的 Web 系统中更是如此。在本章中，我们将深入学习在 Java 语言中应用最广泛的 `String` 类，并研究与之相关的类及工具。
 
-<!-- Immutable Strings -->
-
 ## 字符串的不可变
 
 `String` 对象是不可变的。查看 JDK 文档你就会发现，`String` 类中每一个看起来会修改 `String` 值的方法，实际上都是创建了一个全新的 `String` 对象，以包含修改后的字符串内容。而最初的 `String` 对象则丝毫未动。
@@ -259,8 +257,6 @@ public class UsingStringBuilder {
 
 `StringBuilder `是 Java SE5 引入的，在这之前用的是 `StringBuffer`。后者是线程安全的（参见[并发编程](./24-Concurrent-Programming.md)），因此开销也会大些。使用 `StringBuilder` 进行字符串操作更快一点。
 
-<!-- Unintended Recursion -->
-
 ## 意外递归
 
 Java 中的每个类从根本上都是继承自 `Object`，标准集合类也是如此，它们都有 `toString()` 方法，并且覆盖了该方法，使得它生成的 `String` 结果能够表达集合自身，以及集合包含的对象。例如 `ArrayList.toString()`，它会遍历 `ArrayList` 中包含的所有对象，调用每个元素上的 `toString()` 方法：
@@ -318,8 +314,6 @@ public class InfiniteRecursion {
 
 如果你真的想要打印对象的内存地址，应该调用 `Object.toString()` 方法，这才是负责此任务的方法。所以，不要使用 `this`，而是应该调用 `super.toString()` 方法。
 
-<!-- Operations on Strings -->
-
 ## 字符串操作
 
 以下是 `String` 对象具备的一些基本方法。重载的方法归纳在同一行中：
@@ -357,8 +351,6 @@ public class InfiniteRecursion {
 从这个表可以看出，当需要改变字符串的内容时，`String` 类的方法都会返回一个新的 `String` 对象。同时，如果内容不改变，`String` 方法只是返回原始对象的一个引用而已。这可以节约存储空间以及避免额外的开销。
 
 本章稍后还将介绍正则表达式在 `String` 方法中的应用。
-
-<!-- Formatting Output -->
 
 ## 格式化输出
 
@@ -733,8 +725,6 @@ public class Hex {
 ```
 
 为了打开及读入二进制文件，我们用到了另一个工具 `Files.readAllBytes()`，这已经在 [Files 章节](./17-Files.md) 介绍过了。这里的 `readAllBytes()` 方法将整个文件以 `byte` 数组的形式返回。
-
-<!-- Regular Expressions -->
 
 ## 正则表达式
 
@@ -1466,8 +1456,6 @@ public class JGrep {  
 
 如果想要更深入地学习正则表达式，你可以阅读 Jeffrey E. F. Friedl 的《精通正则表达式（第 2 版）》。网络上也有很多正则表达式的介绍，你还可以从 Perl 和 Python 等其他语言的文档中找到有用的信息。
 
-<!-- Scanning Input -->
-
 ## 扫描输入
 
 到目前为止，从文件或标准输入读取数据还是一件相当痛苦的事情。一般的解决办法就是读入一行文本，对其进行分词，然后使用 `Integer`、`Double` 等类的各种解析方法来解析数据：
@@ -1631,8 +1619,6 @@ Threat on 08/12/2015 from 58.27.82.161
 
 在配合正则表达式使用扫描时，有一点需要注意：它仅仅针对下一个输入分词进行匹配，如果你的正则表达式中含有分隔符，那永远不可能匹配成功。
 
-<!-- StringTokenizer -->
-
 ## StringTokenizer 类
 
 在 Java 引入正则表达式（J2SE1.4）和 `Scanner` 类（Java SE5）之前，分割字符串的唯一方法是使用 `StringTokenizer` 来分词。不过，现在有了正则表达式和 `Scanner`，我们可以使用更加简单、更加简洁的方式来完成同样的工作了。下面的例子中，我们将 `StringTokenizer` 与另外两种技术简单地做了一个比较：
@@ -1663,8 +1649,6 @@ But I'm not dead yet! I feel happy!
 ```
 
 使用正则表达式或 `Scanner` 对象，我们能够以更加复杂的模式来分割一个字符串，而这对于 `StringTokenizer` 来说就很困难了。基本上，我们可以放心地说，`StringTokenizer` 已经可以废弃不用了。
-
-<!-- Summary -->
 
 ## 本章小结
 

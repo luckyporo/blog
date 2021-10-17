@@ -9,8 +9,6 @@ draft: false
 
 在[初始化和清理 ]() 这章结束的时候，我们已经简单地介绍了枚举的概念。现在，你对 Java 已经有了更深刻的理解，因此可以更深入地学习 Java 中的枚举了。你将在本章中看到，使用 enum 可以做很多有趣的事情，同时，我们也会深入其他的 Java 特性，例如泛型和反射。在这个过程中，我们还将学习一些设计模式。
 
-<!-- Basic enum Features -->
-
 ## 基本 enum 特性
 
 我们已经在[初始化和清理 ]() 这章章看到，调用 enum 的 values() 方法，可以遍历 enum 实例 .values() 方法返回 enum 实例的数组，而且该数组中的元素严格保持其在 enum 中声明时的顺序，因此你可以在循环中使用 values() 返回的数组。
@@ -118,8 +116,6 @@ Burrito is HOT
 
 注意，在定义 enum 的同一个文件中，这种技巧无法使用，如果是在默认包中定义 enum，这种技巧也无法使用（在 Sun 内部对这一点显然也有不同意见）。
 
-<!-- Adding Methods to an enum -->
-
 ## 方法添加
 
 除了不能继承自一个 enum 之外，我们基本上可以将 enum 看作一个常规的类。也就是说我们可以向 enum 中添加方法。enum 甚至可以有 main() 方法。
@@ -202,8 +198,6 @@ Mothership
 ```
 
 toString() 方法通过调用 name() 方法取得 SpaceShip 的名字，然后将其修改为只有首字母大写的格式。
-
-<!-- enums in switch Statements -->
 
 ## switch 语句中的 enum
 
@@ -446,8 +440,6 @@ NUTTY, SLAPPY,
 
 这个结果有点奇怪，不过你必须要有一个 enum 实例才能调用其上的方法。现在，在任何接受 Supplier 参数的方法中，例如 printNext()，都可以使用 CartoonCharacter。
 
-<!-- Random Selection -->
-
 ## 随机选择
 
 就像你在 CartoonCharacter.get() 中看到的那样，本章中的很多示例都需要从 enum 实例中进行随机选择。我们可以利用泛型，从而使得这个工作更一般化，并将其加入到我们的工具库中。
@@ -495,8 +487,6 @@ STANDING FLYING RUNNING STANDING RUNNING STANDING LYING
 DODGING SITTING RUNNING HOPPING HOPPING HOPPING RUNNING
 STANDING LYING FALLING RUNNING FLYING LYING
 ```
-
-<!-- Using Interfaces for Organization -->
 
 ## 使用接口组织枚举
 
@@ -750,8 +740,6 @@ ESPRESSO
 
 其实，这仅仅是重新组织了一下代码，不过多数情况下，这种方式使你的代码具有更清晰的结构。
 
-<!-- Using EnumSet Instead of Flags -->
-
 ## 使用 EnumSet 替代 Flags
 
 Set 是一种集合，只能向其中添加不重复的对象。当然，enum 也要求其成员都是唯一的，所以 enum 看起来也具有集合的行为。不过，由于不能从 enum 中删除或添加元素，所以它只能算是不太有用的集合。Java SE5 引入 EnumSet，是为了通过 enum 创建一种替代品，以替代传统的基于 int 的“位标志”。这种标志可以用来表示某种“开/关”信息，不过，使用这种标志，我们最终操作的只是一些 bit，而不是这些 bit 想要表达的概念，因此很容易写出令人难以理解的代码。
@@ -849,8 +837,6 @@ A68, A69, A70, A71, A72, A73, A74, A75]
 ```
 
 显然，EnumSet 可以应用于多过 64 个元素的 enum，所以我猜测，Enum 会在必要的时候增加一个 long。
-
-<!-- Using EnumMap -->
 
 ## 使用 EnumMap
 
@@ -1595,8 +1581,6 @@ FileInputSupplier 构造函数将此文件转换为流，并跳过注释行。�
 
 这种设计有一个缺陷，它要求 enum State 实例访问的 VendingMachine 属性必须声明为 static，这意味着，你只能有一个 VendingMachine 实例。不过如果我们思考一下实际的（嵌入式 Java）应用，这也许并不是一个大问题，因为在一台机器上，我们可能只有一个应用程序。
 
-<!-- Multiple Dispatching -->
-
 ## 多路分发
 
 当你要处理多种交互类型时，程序可能会变得相当杂乱。举例来说，如果一个系统要分析和执行数学表达式。我们可能会声明 Number.plus(Number)，Number.multiple(Number) 等等，其中 Number 是各种数字对象的超类。然而，当你声明 a.plus(b) 时，你并不知道 a 或 b 的确切类型，那你如何能让它们正确地交互呢？
@@ -2088,8 +2072,6 @@ table 与前一个例子中 initRow() 方法的调用次序完全相同。
 与前面一个例子相比，这个程序代码虽然简短，但表达能力却更强，部分原因是其代码更易于理解与修改，而且也更直接。不过，由于它使用的是数组，所以这种方式不太“安全”。如果使用一个大型数组，可能会不小心使用了错误的尺寸，而且，如果你的测试不能覆盖所有的可能性，有些错误可能会从你眼前溜过。
 
 事实上，以上所有的解决方案只是各种不同类型的表罢了。不过，分析各种表的表现形式，找出最适合的那一种，还是很有价值的。注意，虽然上例是最简洁的一种解决方案，但它也是相当僵硬的方案，因为它只能针对给定的常量输入产生常量输出。然而，也没有什么特别的理由阻止你用 table 来生成功能对象。对于某类问题而言，“表驱动式编码”的概念具有非常强大的功能。
-
-<!-- Summary -->
 
 ## 本章小结
 

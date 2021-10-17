@@ -144,8 +144,6 @@ Braeburn@4e25154f
 
 程序的输出是从 **Object** 默认的 `toString()` 方法产生的，该方法打印类名，后边跟着对象的散列码的无符号十六进制表示（这个散列码是通过 `hashCode()` 方法产生的）。将在[附录：理解 equals 和 hashCode 方法]()中了解有关散列码的内容。
 
-<!-- Basic Concepts -->
-
 ## 基本概念
 
 Java 集合类库采用“持有对象”（holding objects）的思想，并将其分为两个不同的概念，表示为类库的基本接口：
@@ -194,8 +192,6 @@ public class SimpleCollection {
 `add()` 方法的名称就表明它是在 **Collection** 中添加一个新元素。但是，文档中非常详细地叙述到 `add()` “要确保这个 **Collection** 包含指定的元素。”这是因为考虑到了 **Set** 的含义，因为在 **Set**中，只有当元素不存在时才会添加元素。在使用 **ArrayList** ，或任何其他类型的 **List** 时，`add()` 总是表示“把它放进去”，因为 **List** 不关心是否存在重复元素。
 
 可以使用 _for-in_ 语法来遍历所有的 **Collection** ，就像这里所展示的那样。在本章的后续部分，还将学习到一个更灵活的概念，_迭代器_。
-
-<!-- Adding Groups of Elements -->
 
 ## 添加元素组
 
@@ -269,8 +265,6 @@ public class AsListInference {
 
 在 **snow4** 中，注意 `Arrays.asList()` 中间的“暗示”（即 `<Snow>` ），告诉编译器 `Arrays.asList()` 生成的结果 **List** 类型的实际目标类型是什么。这称为*显式类型参数说明*（explicit type argument specification）。
 
-<!-- Printing Collections -->
-
 ## 集合的打印
 
 必须使用 `Arrays.toString()` 来生成数组的可打印形式。但是打印集合无需任何帮助。下面是一个例子，这个例子中也介绍了基本的 Java 集合：
@@ -338,8 +332,6 @@ public class PrintingCollections {
 本例使用了 **Map** 的三种基本风格： **HashMap** ， **TreeMap** 和 **LinkedHashMap** 。
 
 键和值保存在 **HashMap** 中的顺序不是插入顺序，因为 **HashMap** 实现使用了非常快速的算法来控制顺序。 **TreeMap** 把所有的键按照比较规则来排序， **LinkedHashMap** 在保持 **HashMap** 查找速度的同时按照键的插入顺序来排序。
-
-<!-- List -->
 
 ## 列表 List
 
@@ -474,8 +466,6 @@ sub: [Mouse, Pug]
 
 第 22、23 行输出展示了如何使用 `toArray()` 方法将任意的 **Collection** 转换为数组。这是一个重载方法，其无参版本返回一个 **Object** 数组，但是如果将目标类型的数组传递给这个重载版本，那么它会生成一个指定类型的数组（假设它通过了类型检查）。如果参数数组太小而无法容纳 **List** 中的所有元素（就像本例一样），则 `toArray()` 会创建一个具有合适尺寸的新数组。 **Pet** 对象有一个 `id()` 方法，可以在所产生的数组中的对象上调用这个方法。
 
-<!-- Iterators -->
-
 ## 迭代器 Iterators
 
 在任何集合中，都必须有某种方式可以插入元素并再次获取它们。毕竟，保存事物是集合最基本的工作。对于 **List** ， `add()` 是插入元素的一种方式， `get()` 是获取元素的一种方式。
@@ -608,8 +598,6 @@ public class CrossCollectionIteration2 {
 
 这里所有的类都是 **Iterable** ，所以现在对 `display()` 的调用显然更简单。
 
-<!-- ListIterator -->
-
 ### ListIterator
 
 **ListIterator** 是一个更强大的 **Iterator** 子类型，它只能由各种 **List** 类生成。 **Iterator** 只能向前移动，而 **ListIterator** 可以双向移动。它可以生成迭代器在列表中指向位置的后一个和前一个元素的索引，并且可以使用 `set()` 方法替换它访问过的最近一个元素。可以通过调用 `listIterator()` 方法来生成指向 **List** 开头处的 **ListIterator** ，还可以通过调用 `listIterator(n)` 创建一个一开始就指向列表索引号为 **n** 的元素处的 **ListIterator** 。 下面的示例演示了所有这些能力：
@@ -650,8 +638,6 @@ Rat, 1, 0; Manx, 2, 1; Cymric, 3, 2; Mutt, 4, 3; Pug, 5, 4; Cymric, 6, 5; Pug, 7
 ```
 
 `Pets.get()` 方法用来从位置 3 开始替换 **List** 中的所有 Pet 对象。
-
-<!-- LinkedList -->
 
 ## 链表 LinkedList
 
@@ -722,8 +708,6 @@ pets.removeLast(): Hamster
 ```
 
 `Pets.list()` 的结果被传递给 **LinkedList** 的构造器，以便使用它来填充 **LinkedList** 。如果查看 **Queue** 接口就会发现，它在 **LinkedList** 的基础上添加了 `element()` ， `offer()` ， `peek()` ， `poll()` 和 `remove()` 方法，以使其可以成为一个 **Queue** 的实现。 **Queue** 的完整示例将在本章稍后给出。
-
-<!-- Stack -->
 
 ## 堆栈 Stack
 
@@ -831,8 +815,6 @@ import onjava.Stack;
 ```
 
 现在,任何对 **Stack** 的引用都将选择 **onjava** 版本，而在选择 **java.util.Stack** 时，必须使用全限定名称（full qualification）。
-
-<!-- Set -->
 
 ## 集合 Set
 
@@ -1013,8 +995,6 @@ public class UniqueWordsAlphabetic {
 
 **Comparator** 比较器将在[数组]()章节详细介绍。
 
-<!-- Map -->
-
 ## 映射 Map
 
 将对象映射到其他对象的能力是解决编程问题的有效方法。例如，考虑一个程序，它被用来检查 Java 的 **Random** 类的随机性。理想情况下， **Random** 会产生完美的数字分布，但为了测试这一点，则需要生成大量的随机数，并计算落在各种范围内的数字个数。 **Map** 可以很容易地解决这个问题。在本例中，键是 **Random** 生成的数字，而值是该数字出现的次数：
@@ -1146,8 +1126,6 @@ Person Luke has:
 
 **Map** 可以返回由其键组成的 **Set** ，由其值组成的 **Collection** ，或者其键值对的 **Set** 。 `keySet()` 方法生成由在 **petPeople** 中的所有键组成的 **Set** ，它在 _for-in_ 语句中被用来遍历该 **Map** 。
 
-<!-- Queue -->
-
 ## 队列 Queue
 
 队列是一个典型的“先进先出”（FIFO）集合。 即从集合的一端放入事物，再从另一端去获取它们，事物放入集合的顺序和被取出的顺序是相同的。队列通常被当做一种可靠的将对象从程序的某个区域传输到另一个区域的途径。队列在[并发编程]()中尤为重要，因为它们可以安全地将对象从一个任务传输到另一个任务。
@@ -1188,8 +1166,6 @@ B r o n t o s a u r u s
 自动包装机制会自动将 `nextInt()` 的 **int** 结果转换为 **queue** 所需的 **Integer** 对象，并将 **char c** 转换为 **qc** 所需的 **Character** 对象。 **Queue** 接口窄化了对 **LinkedList** 方法的访问权限，因此只有适当的方法才能使用，因此能够访问到的 **LinkedList** 的方法会变少（这里实际上可以将 **Queue** 强制转换回 **LinkedList** ，但至少我们不鼓励这样做）。
 
 **Queue** 的特有方法提供了独立而完整的功能。 换句话说， **Queue** 无需调用继承自 **Collection** 的方法，（只依靠 **Queue** 的特有方法）就有队列的功能。
-
-<!-- PriorityQueue -->
 
 ### 优先级队列 PriorityQueue
 
@@ -1516,8 +1492,6 @@ public class ArrayIsNotIterable {
 
 尝试将数组作为一个 **Iterable** 参数传递会导致失败。这说明不存在任何从数组到 **Iterable** 的自动转换; 必须手工执行这种转换。
 
-<!-- The Adapter Method Idiom -->
-
 ### 适配器方法惯用法
 
 如果现在有一个 **Iterable** 类，你想要添加一种或多种在 _for-in_ 语句中使用这个类的方法，应该怎么做呢？例如，你希望可以选择正向还是反向遍历一个单词列表。如果直接继承这个类，并重写 `iterator()` 方法，则只能替换现有的方法，而不能实现遍历顺序的选择。
@@ -1667,8 +1641,6 @@ array: [9, 1, 6, 3, 7, 2, 5, 10, 4, 8]
 ```
 
 在第一种情况下， `Arrays.asList()` 的输出被传递给了 **ArrayList** 的构造器，这将创建一个引用 **ia** 的元素的 **ArrayList** ，因此打乱这些引用不会修改该数组。但是，如果直接使用 `Arrays.asList(ia)` 的结果，这种打乱就会修改 **ia** 的顺序。重要的是要注意 `Arrays.asList()` 生成一个 **List** 对象，该对象使用底层数组作为其物理实现。如果对 **List** 对象做了任何修改，又不想让原始数组被修改，那么就应该在另一个集合中创建一个副本。
-
-<!-- Summary -->
 
 ## 本章小结
 

@@ -11,8 +11,6 @@ draft: false
 
 **注意：** 随着 Java Collection 和 Stream 类中高级功能的不断增加，日常编程中使用数组的需求也在变少，所以你暂且可以放心地略读甚至跳过这一章。但是，即使你自己避免使用数组，也总会有需要阅读别人数组代码的那一天。那时候，本章依然在这里等着你来翻阅。
 
-<!-- Why Arrays are Special -->
-
 ## 数组特性
 
 明明还有很多其他的办法来保存对象，那么是什么令数组如此特别？
@@ -293,8 +291,6 @@ a = d;
 
 **ArrayOptions.java** 的第二部分展示了基元数组的语法就像对象数组一样，除了基元数组直接保存基本数据类型的值。
 
-<!-- Returning an Array -->
-
 ## 返回数组
 
 假设你写了一个方法，这个方法不是返回一个元素，而是返回多个元素。对 C++/C 这样的语言来说这是很困难的，因为你无法返回一个数组，只能是返回一个指向数组的指针。这会带来一些问题，因为对数组生存期的控制变得很混乱，这会导致内存泄露。
@@ -357,8 +353,6 @@ public class IceCreamFlavors {
 比较将显示出随机选中的元素是不是已经存在于 **results** 数组中）。如果成功了，它将添加条目并且寻找下一个（ **i** 递增）。输出结果显示 **flavorSet()** 每一次都是按照随机顺序选择 flavors。
 
 一直到现在，随机数都是通过 **java.util.Random** 类生成的，这个类从 Java 1.0 就有，甚至更新过以提供 Java 8 流。现在我们可以介绍 Java 8 中的 **SplittableRandom** ,它不仅能在并行操作使用（你最终会学到），而且提供了一个高质量的随机数。这本书的剩余部分都使用 **SplittableRandom** 。
-
-<!-- Multidimensional Arrays -->
 
 ## 多维数组
 
@@ -560,8 +554,6 @@ Lazy, Brown, Dog, &, friend]]
 ```
 
 同样的，在 **Integer** 和 **Double** 数组中，自动装箱可为你创建包装器对象。
-
-<!-- Arrays and Generics -->
 
 ## 泛型数组
 
@@ -807,8 +799,6 @@ public class SimpleSetAll {
 - **[2]** 这个函数只需要接受索引就能产生正确结果。这个，我们忽略索引值并且使用 **val** 生成结果。
 - **[3]** 方法引用有效，因为 **Bob** 的构造器接收一个 **int** 参数。只要我们传递的函数接收一个 **int** 参数且能产生正确的结果，就认为它完成了工作。
 - **[4]** 为了处理除了 **int** ，**long** ，**double** 之外的基元类型，请为基元创建包装类的数组。然后使用 **setAll()** 的泛型版本。请注意，**getChar（）** 生成基元类型，因此这是自动装箱到 **Character** 。
-
-<!-- Incremental Generators -->
 
 ## 增量生成
 
@@ -1214,8 +1204,6 @@ Double
 注意到原始数组类型 **int[]** ，**long[]** ，**double[]** 可以直接被 **Arrays.setAll()** 填充，但是其他的原始类型都要求用包装器类型的数组。
 
 通过 **Stream.generate()** 创建的包装数组显示了 **toArray（）** 的重载用法，在这里你应该提供给它要创建的数组类型的构造器。
-
-<!-- Random Generators -->
 
 ## 随机生成
 
@@ -1672,8 +1660,6 @@ String
 
 注意（除了 **String** 部分之外），这段代码与 **TestCount.java** 中的代码相同，**Count** 被 **Rand** 替换。
 
-<!-- Generics and Primitive Arrays -->
-
 ## 泛型和基本数组
 
 在本章的前面，我们被提醒，泛型不能和基元一起工作。在这种情况下，我们必须从基元数组转换为包装类型的数组，并且还必须从另一个方向转换。下面是一个转换器可以同时对所有类型的数据执行操作：
@@ -1879,8 +1865,6 @@ a8b: [4.83, 2.89, 2.9, 1.97, 3.01, 0.18]
 
 在每种情况下，原始数组都是为包装类型创建的，并使用 **Arrays.setAll()** 填充，正如我们在 **TestCouner.java** 中所做的那样（这也验证了 **Arrays.setAll()** 是否能同 **Integer** ，**Long** ，和 **Double** ）。然后 **ConvertTo.primitive()** 将包装器数组转换为对应的基元数组，**ConverTo.boxed()** 将其转换回来。
 
-<!-- Modifying Existing Array Elements -->
-
 ## 数组元素修改
 
 传递给 **Arrays.setAll()** 的生成器函数可以使用它接收到的数组索引修改现有的数组元素:
@@ -1912,8 +1896,6 @@ public class ModifyExisting {
 ```
 
 [1] Lambdas 在这里特别有用，因为数组总是在 lambda 表达式的范围内。
-
-<!-- An Aside On Parallelism -->
 
 ## 数组并行
 
@@ -2000,8 +1982,6 @@ public class ParallelSetAll {
 
 数组分配和初始化是在单独的方法中执行的，因为如果两个数组都在 **main()** 中分配，它会耗尽内存(至少在我的机器上是这样。还有一些方法可以告诉 Java 在启动时分配更多的内存)。
 
-<!-- Arrays Utilities -->
-
 ## Arrays 工具类
 
 您已经看到了 **java.util.Arrays** 中的 **fill()** 和 **setAll()/parallelSetAll()** 。该类包含许多其他有用的 **静态** 程序方法，我们将对此进行研究。
@@ -2037,8 +2017,6 @@ public class ParallelSetAll {
 - **toString()**：为数组生成一个字符串表示。你在整个章节中经常看到这种用法。
 
 - **deepToString()**：为多维数组生成一个字符串。你在整个章节中经常看到这种用法。对于所有基本类型和对象，所有这些方法都是重载的。
-
-<!-- Copying an Array -->
 
 ## 数组拷贝
 
@@ -2139,8 +2117,6 @@ public class ArrayCopying {
 
 还有一个方法 **System.arraycopy()** ，它将一个数组复制到另一个已经分配的数组中。这将不会执行自动装箱或自动卸载—两个数组必须是完全相同的类型。
 
-<!-- Comparing Arrays -->
-
 ## 数组比较
 
 **数组** 提供了 **equals()** 来比较一维数组，以及 **deepEquals()** 来比较多维数组。对于所有原生类型和对象，这些方法都是重载的。
@@ -2206,8 +2182,6 @@ a1w == a2w: false
 
 **md1** 和 **md2** 是通过 **twoDArray()** 以相同方式初始化的多维字符串数组。注意，**deepEquals()** 返回 **true**，因为它执行了适当的比较，而普通的 **equals()** 错误地返回 **false**。如果我们更改数组中的一个元素，**deepEquals()** 将检测它。
 
-<!-- Streams and Arrays -->
-
 ## 流和数组
 
 **stream()** 方法很容易从某些类型的数组中生成元素流。
@@ -2256,8 +2230,6 @@ public class StreamFromArray {
 只有“原生类型” **int**、**long** 和 **double** 可以与 **Arrays.stream()** 一起使用;对于其他的，您必须以某种方式获得一个包装类型的数组。
 
 通常，将数组转换为流来生成所需的结果要比直接操作数组容易得多。请注意，即使流已经“用完”(您不能重复使用它)，您仍然拥有该数组，因此您可以以其他方式使用它----包括生成另一个流。
-
-<!-- Sorting Arrays -->
 
 ## 数组排序
 
@@ -2472,8 +2444,6 @@ Case-insensitive sort: [anmkkyh, bhmupju, btpenpc, cjwzmmr,
 
 Java 标准库中使用的排序算法被设计为最适合您正在排序的类型----原生类型的快速排序和对象的归并排序。
 
-<!-- Sorting in Parallel -->
-
 ## 并行排序
 
 如果排序性能是一个问题，那么可以使用 **Java 8 parallelSort()**，它为所有不可预见的情况(包括数组的排序区域或使用了比较器)提供了重载版本。为了查看相比于普通的 sort(), **parallelSort()** 的优点，我们使用了用来验证代码时的 **JMH**：
@@ -2682,8 +2652,6 @@ All: 49999995000000
 ```
 
 因为正确使用 **parallelPrefix()** 可能相当复杂，所以通常应该只在存在内存或速度问题(或两者都有)时使用。否则，**Stream.reduce()** 应该是您的首选。
-
-<!-- Summary -->
 
 ## 本章小结
 

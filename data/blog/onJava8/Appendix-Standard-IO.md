@@ -106,8 +106,6 @@ public class Redirecting {
 
 I/O 重定向操作的是字节流而不是字符流，因此使用 `InputStream` 和 `OutputStream`，而不是 `Reader` 和 `Writer`。
 
-<!-- Process Control -->
-
 ## 执行控制
 
 你经常需要在 Java 内部直接执行操作系统的程序，并控制这些程序的输入输出，Java 类库提供了执行这些操作的类。

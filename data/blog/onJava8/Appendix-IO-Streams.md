@@ -26,8 +26,6 @@ I/O 流屏蔽了实际的 I/O 设备中处理数据的细节：
 
 这里我只会提供这些类的概述，并假定你会使用 JDK 文档来获取它们的详细信息（比如某个类的所以方法的详细列表）。
 
-<!-- Types of InputStream -->
-
 ## 输入流类型
 
 `InputStream` 表示那些从不同数据源产生输入的类，如[表 I/O-1](#table-io-1) 所示，这些数据源包括：
@@ -52,8 +50,6 @@ I/O 流屏蔽了实际的 I/O 设备中处理数据的细节：
 |   `SequenceInputStream`   | 将两个或多个 `InputStream` 对象转换成一个 `InputStream`                                                      | 两个 `InputStream` 对象或一个容纳 `InputStream` 对象的容器 `Enumeration` | 作为一种数据源：将其与 `FilterInputStream` 对象相连以提供有用接口       |
 |    `FilterInputStream`    | 抽象类，作为“装饰器”的接口。其中，“装饰器”为其它的 `InputStream` 类提供有用的功能。见[表 I/O-3](#table-io-3) | 见[表 I/O-3](#table-io-3)                                                | 见[表 I/O-3](#table-io-3)                                               |
 
-<!-- Types of OutputStream -->
-
 ## 输出流类型
 
 如[表 I/O-2](#table-io-2) 所示，该类别的类决定了输出所要去往的目标：字节数组（但不是 `String`，当然，你也可以用字节数组自己创建）、文件或管道。
@@ -68,8 +64,6 @@ I/O 流屏蔽了实际的 I/O 设备中处理数据的细节：
 |   `FileOutputStream`    | 用于将信息写入文件                                                                                      | 字符串，表示文件名、文件或 `FileDescriptor` 对象 | 用于指定数据的目的地：将其与 `FilterOutputStream` 对象相连以提供有用接口         |
 |   `PipedOutputStream`   | 任何写入其中的信息都会自动作为相关 `PipedInputStream` 的输出。实现“管道化”概念                          | `PipedInputStream`                               | 指定用于多线程的数据的目的地：将其与 `FilterOutputStream` 对象相连以提供有用接口 |
 |  `FilterOutputStream`   | 抽象类，作为“装饰器”的接口。其中，“装饰器”为其它 `OutputStream` 提供有用功能。见[表 I/O-4](#table-io-4) | 见[表 I/O-4](#table-io-4)                        | 见[表 I/O-4](#table-io-4)                                                        |
-
-<!-- Adding Attributes and Useful Interfaces -->
 
 ## 添加属性和有用的接口
 
@@ -527,8 +521,6 @@ The end of the file
 （rw）方式打开文件。
 
 除此之外，还可以使用 `nio` 中的“内存映射文件”代替 `RandomAccessFile`，这在[附录：新 I/O](Appendix-New-IO.md)中有介绍。
-
-<!-- Summary -->
 
 ## 本章小结
 
