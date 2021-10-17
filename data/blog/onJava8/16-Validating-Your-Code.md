@@ -27,7 +27,7 @@ C 风格的语言，尤其是 C++，通常会认为性能比安全更重要。�
 
 #### JUnit
 
-最初的 JUnit 发布于 2000 年，大概是基于 Java 1.0，因此不能使用 Java 的反射工具。因此，用旧的 JUnit 编写单元测试是一项相当繁忙和冗长的工作。我发现这个设计令人不爽，并编写了自己的单元测试框架作为 [注解](./Annotations.md) 一章的示例。这个框架走向了另一个极端，“尝试最简单可行的方法”（极限编程中的一个关键短语）。从那之后，JUnit 通过反射和注解得到了极大的改进，大大简化了编写单元测试代码的过程。在 Java8 中，他们甚至增加了对 lambdas 表达式的支持。本书使用当时最新的 Junit5 版本
+最初的 JUnit 发布于 2000 年，大概是基于 Java 1.0，因此不能使用 Java 的反射工具。因此，用旧的 JUnit 编写单元测试是一项相当繁忙和冗长的工作。我发现这个设计令人不爽，并编写了自己的单元测试框架作为 注解 一章的示例。这个框架走向了另一个极端，“尝试最简单可行的方法”（极限编程中的一个关键短语）。从那之后，JUnit 通过反射和注解得到了极大的改进，大大简化了编写单元测试代码的过程。在 Java8 中，他们甚至增加了对 lambdas 表达式的支持。本书使用当时最新的 Junit5 版本
 
 在 JUnit 最简单的使用中，使用 **@Test** 注解标记表示测试的每个方法。JUnit 将这些方法标识为单独的测试，并一次设置和运行一个测试，采取措施避免测试之间的副作用。
 
@@ -263,7 +263,7 @@ at Assert2.main(Assert2.java:8)
 
 **information-expression** 可以产生任何类型的对象，因此，通常将构造一个包含对象值的更复杂的字符串，它包含失败的断言。
 
-你还可以基于类名或包名打开或关闭断言；也就是说，你可以对整个包启用或禁用断言。实现这一点的详细信息在 JDK 的断言文档中。此特性对于使用断言的大型项目来说很有用当你想打开或关闭某些断言时。但是，日志记录（_Logging_）或者调试（_Debugging_）,可能是捕获这类信息的更好工具。
+你还可以基于类名或包名打开或关闭断言；也就是说，你可以对整个包启用或禁用断言。实现这一点的详细信息在 JDK 的断言文档中。此特性对于使用断言的大型项目来说很有用当你想打开或关闭某些断言时。但是，日志记录或者调试,可能是捕获这类信息的更好工具。
 
 你还可以通过编程的方式通过链接到类加载器对象（**ClassLoader**）来控制断言。类加载器中有几种方法允许动态启用和禁用断言，其中 **setDefaultAssertionStatus ()** ,它为之后加载的所有类设置断言状态。因此，你可以像下面这样悄悄地开启断言：
 
@@ -370,7 +370,7 @@ Shouldn't be null: arg s
 
 #### 使用断言进行契约式设计
 
-*契约式设计(DbC)*是 Eiffel 语言的发明者 Bertrand Meyer 提出的一个概念，通过确保对象遵循某些规则来帮助创建健壮的程序。这些规则是由正在解决的问题的性质决定的，这超出了编译器可以验证的范围。虽然断言没有直接实现 **DBC**（Eiffel 语言也是如此），但是它们创建了一种非正式的 DbC 编程风格。DbC 假定服务供应者与该服务的消费者或客户之间存在明确指定的契约。在面向对象编程中，服务通常由对象提供，对象的边界 — 供应者和消费者之间的划分 — 是对象类的接口。当客户端调用特定的公共方法时，它们希望该调用具有特定的行为：对象状态改变，以及一个可预测的返回值。
+契约式设计(DbC)是 Eiffel 语言的发明者 Bertrand Meyer 提出的一个概念，通过确保对象遵循某些规则来帮助创建健壮的程序。这些规则是由正在解决的问题的性质决定的，这超出了编译器可以验证的范围。虽然断言没有直接实现 **DBC**（Eiffel 语言也是如此），但是它们创建了一种非正式的 DbC 编程风格。DbC 假定服务供应者与该服务的消费者或客户之间存在明确指定的契约。在面向对象编程中，服务通常由对象提供，对象的边界 — 供应者和消费者之间的划分 — 是对象类的接口。当客户端调用特定的公共方法时，它们希望该调用具有特定的行为：对象状态改变，以及一个可预测的返回值。
 
 **Meyer** 认为：
 
@@ -727,159 +727,6 @@ null]
 **initialize()** 添加了一些数据，因此每个测试的 **CircularQueue** 都是部分满的。**showFullness()** 和 **showempty()** 表明 **CircularQueue** 是满的还是空的，这四种测试方法中的每一种都确保了 **CircularQueue** 功能在不同的地方正确运行。
 
 通过将 Dbc 和单元测试结合起来，你不仅可以同时使用这两种方法，还可以有一个迁移路径—你可以将一些 Dbc 测试迁移到单元测试中，而不是简单地禁用它们，这样你仍然有一定程度的测试。
-
-#### 使用 Guava 前置条件
-
-在非严格的 DbC 中，前置条件是 DbC 中你不想删除的那一部分，因为它可以检查方法参数的有效性。那是你没有办法控制的事情，所以你需要对其检查。因为 Java 在默认情况下禁用断言，所以通常最好使用另外一个始终验证方法参数的库。
-
-谷歌的 Guava 库包含了一组很好的前置条件测试，这些测试不仅易于使用，而且命名也足够好。在这里你可以看到它们的简单用法。库的设计人员建议静态导入前置条件:
-
-```java
-// validating/GuavaPreconditions.java
-// Demonstrating Guava Preconditions
-import java.util.function.*;
-import static com.google.common.base.Preconditions.*;
-public class GuavaPreconditions {
-    static void test(Consumer<String> c, String s) {
-        try {
-            System.out.println(s);
-            c.accept(s);
-            System.out.println("Success");
-        } catch(Exception e) {
-            String type = e.getClass().getSimpleName();
-            String msg = e.getMessage();
-            System.out.println(type +
-            (msg == null ? "" : ": " + msg));
-        }
-    }
-
-    public static void main(String[] args) {
-        test(s -> s = checkNotNull(s), "X");
-        test(s -> s = checkNotNull(s), null);
-        test(s -> s = checkNotNull(s, "s was null"), null);
-        test(s -> s = checkNotNull(
-        s, "s was null, %s %s", "arg2", "arg3"), null);
-        test(s -> checkArgument(s == "Fozzie"), "Fozzie");
-        test(s -> checkArgument(s == "Fozzie"), "X");
-        test(s -> checkArgument(s == "Fozzie"), null);
-        test(s -> checkArgument(
-        s == "Fozzie", "Bear Left!"), null);
-        test(s -> checkArgument(
-        s == "Fozzie", "Bear Left! %s Right!", "Frog"),
-        null);
-        test(s -> checkState(s.length() > 6), "Mortimer");
-        test(s -> checkState(s.length() > 6), "Mort");
-        test(s -> checkState(s.length() > 6), null);
-        test(s ->
-        checkElementIndex(6, s.length()), "Robert");
-        test(s ->
-        checkElementIndex(6, s.length()), "Bob");
-        test(s ->
-        checkElementIndex(6, s.length()), null);
-        test(s ->
-        checkPositionIndex(6, s.length()), "Robert");
-        test(s ->
-        checkPositionIndex(6, s.length()), "Bob");
-        test(s ->
-        checkPositionIndex(6, s.length()), null);
-        test(s -> checkPositionIndexes(
-        0, 6, s.length()), "Hieronymus");
-        test(s -> checkPositionIndexes(
-        0, 10, s.length()), "Hieronymus");
-        test(s -> checkPositionIndexes(
-        0, 11, s.length()), "Hieronymus");
-        test(s -> checkPositionIndexes(
-        -1, 6, s.length()), "Hieronymus");
-        test(s -> checkPositionIndexes(
-        7, 6, s.length()), "Hieronymus");
-        test(s -> checkPositionIndexes(
-        0, 6, s.length()), null);
-    }
-}
-/* Output:
-X
-Success
-null
-NullPointerException
-null
-NullPointerException: s was null
-null
-NullPointerException: s was null, arg2 arg3
-Fozzie
-Success
-X
-IllegalArgumentException
-null
-IllegalArgumentException
-null
-IllegalArgumentException: Bear Left!
-null
-IllegalArgumentException: Bear Left! Frog Right!
-Mortimer
-Success
-Mort
-IllegalStateException
-null
-NullPointerException
-Robert
-IndexOutOfBoundsException: index (6) must be less than
-size (6)
-Bob
-IndexOutOfBoundsException: index (6) must be less than
-size (3)
-null
-NullPointerException
-Robert
-Success
-Bob
-IndexOutOfBoundsException: index (6) must not be
-greater than size (3)
-null
-NullPointerException
-Hieronymus
-Success
-Hieronymus
-Success
-Hieronymus
-IndexOutOfBoundsException: end index (11) must not be
-greater than size (10)
-Hieronymus
-IndexOutOfBoundsException: start index (-1) must not be
-negative
-Hieronymus
-IndexOutOfBoundsException: end index (6) must not be
-less than start index (7)
-null
-NullPointerException
-*/
-```
-
-虽然 Guava 的前置条件适用于所有类型，但我这里只演示 **字符串（String）** 类型。**test()** 方法需要一个 Consumer<String>，因此我们可以传递一个 lambda 表达式作为第一个参数，传递给 lambda 表达式的字符串作为第二个参数。它显示字符串，以便在查看输出时确定方向，然后将字符串传递给 lambda 表达式。try 块中的第二个 **println**() 仅在 lambda 表达式成功时才显示; 否则 catch 块将捕获并显示错误信息。注意 **test()** 方法消除了多少重复的代码。
-
-每个前置条件都有三种不同的重载形式：一个什么都没有，一个带有简单字符串消息，以及带有一个字符串和替换值。为了提高效率，只允许 **%s** (字符串类型)替换标记。在上面的例子中，演示了**checkNotNull()** 和 **checkArgument()** 这两种形式。但是它们对于所有前置条件方法都是相同的。注意 **checkNotNull()** 的返回参数， 所以你可以在表达式中内联使用它。下面是如何在构造函数中使用它来防止包含 **Null** 值的对象构造：
-
-```java
-/ validating/NonNullConstruction.java
-import static com.google.common.base.Preconditions.*;
-public class NonNullConstruction {
-    private Integer n;
-    private String s;
-    NonNullConstruction(Integer n, String s) {
-        this.n = checkNotNull(n);
-        this.s = checkNotNull(s);
-    }
-    public static void main(String[] args) {
-        NonNullConstruction nnc =
-        new NonNullConstruction(3, "Trousers");
-    }
-}
-```
-
-**checkArgument()** 接受布尔表达式来对参数进行更具体的测试， 失败时抛出 **IllegalArgumentException**，**checkState()** 用于测试对象的状态（例如，不变性检查），而不是检查参数，并在失败时抛出 **IllegalStateException** 。
-
-最后三个方法在失败时抛出 **IndexOutOfBoundsException**。**checkElementIndex**() 确保其第一个参数是列表、字符串或数组的有效元素索引，其大小由第二个参数指定。**checkPositionIndex()** 确保它的第一个参数在 0 到第二个参数(包括第二个参数)的范围内。 **checkPositionIndexes()** 检查 **[first_arg, second_arg]** 是一个列表的有效子列表，由第三个参数指定大小的字符串或数组。
-
-所有的 Guava 前置条件对于基本类型和对象都有必要的重载。
 
 ## 测试驱动开发
 
@@ -1290,7 +1137,7 @@ public class SLF4JLevels {
 </configuration>
 ```
 
-你可以尝试将 **<root level =“TRACE"> **行更改为其他级别，然后重新运行该程序查看日志输出的更改情况。 如果你没有写 **logback.xml** 文件，日志系统将采取默认配置。
+你可以尝试将 `<root level =“TRACE">`行更改为其他级别，然后重新运行该程序查看日志输出的更改情况。 如果你没有写 **logback.xml** 文件，日志系统将采取默认配置。
 
 这只是 SLF4J 最简单的介绍和一般的日志消息，但也足以作为使用日志的基础 - 你可以沿着这个进行更长久的学习和实践。你可以查阅 [SLF4J 文档](http://www.slf4j.org/manual.html)来获得更深入的信息。
 
@@ -1400,58 +1247,6 @@ SimpleDebugging.main(SimpleDebugging.java:20)
 
 程序运行到第 16 行时发生异常，但是 JDB 在异常发生时就不复存在。调试器还展示了是哪一行导致了异常。你可以使用 **list** 将导致程序终止的执行点列出来：
 
-**main[1] list**
-
-**12 private static void foo3() {**
-
-**13 System.out.println("In foo3");**
-
-**14 int j = 1;**
-
-**15 j--;**
-
-**16 => int i = 5 / j;**
-
-**17 }**
-
-**18 public static void main(String[] args) {**
-
-**19 foo1();**
-
-**20 }**
-
-**21 }**
-
-**/\* Output:**
-
-上述 `=>` 展示了程序将继续运行的执行点。你可以使用命令 **cont**(continue) 继续运行，但是会导致 JDB 在异常发生时退出并打印出栈轨迹信息。
-
-命令 **locals** 能转储所有的局部变量值：
-
-**main[1] locals**
-
-**Method arguments:**
-
-**Local variables:**
-
-**j = 0**
-
-命令 **wherei** 打印进入当前线程的方法栈中的栈帧信息：
-
-**main[1] wherei**
-
-**[1] SimpleDebugging.foo3(SimpleDebugging.java:16), pc =15**
-
-**[2] SimpleDebugging.foo2(SimpleDebugging.java:10), pc = 8**
-
-**[3] SimpleDebugging.foo1(SimpleDebugging.java:6), pc = 8**
-
-**[4] SimpleDebugging.main(SimpleDebugging.java:19), pc = 10**
-
-**wherei** 后的每一行代表一个方法调用和调用返回点（由程序计数器显示数值）。这里的调用序列是 **main()**, **foo1()**, **foo2()** 和 **foo3()**。
-
-因为命令 **list** 展示了执行停止的地方，所以你通常有足够的信息得知发生了什么并修复它。命令 **help** 将会告诉你更多关于 **jdb** 的用法，但是在花更多的时间学习它之前必须明白命令行调试器往往需要花费更多的精力得到结果。使用 **jdb** 学习调试的基础部分，然后转而学习图形界面调试器。
-
 ### 图形化调试器
 
 使用类似 JDB 的命令行调试器是不方便的。它需要显式的命令去查看变量的状态(**locals**, **dump**)，列出源代码中的执行点(**list**)，查找系统中的线程(**threads**)，设置断点(**stop in**, **stop at**)等等。使用图形化调试器只需要点击几下，不需要使用显式的命令就能使用这些特性，而且能查看被调试程序的最新细节。
@@ -1529,7 +1324,7 @@ parallelSetAll: 301
 
 **main()** 方法的主体包含在 **try** 语句块中，因为一台机器用光内存后会导致构建停止。
 
-对于一个长度为 250,000,000 的 **long** 型（仅仅差一点就会让大部分机器内存溢出）数组，我们比较了 **Arrays.setAll()** 和 **Arrays.parallelSetAll()** 的性能。这个并行的版本会尝试使用多个处理器加快完成任务（尽管我在这一节谈到了一些并行的概念，但是在 [并发编程](./24-Concurrent-Programming.md) 章节我们才会详细讨论这些 ）。然而非并行的版本似乎运行得更快，尽管在不同的机器上结果可能不同。
+对于一个长度为 250,000,000 的 **long** 型（仅仅差一点就会让大部分机器内存溢出）数组，我们比较了 **Arrays.setAll()** 和 **Arrays.parallelSetAll()** 的性能。这个并行的版本会尝试使用多个处理器加快完成任务（尽管我在这一节谈到了一些并行的概念，但是在并发编程章节我们才会详细讨论这些 ）。然而非并行的版本似乎运行得更快，尽管在不同的机器上结果可能不同。
 
 **BadMicroBenchmark.java** 中的每一步操作都是独立的，但是如果你的操作依赖于同一资源，那么并行版本运行的速度会骤降，因为不同的进程会竞争相同的那个资源。
 
@@ -1703,29 +1498,6 @@ public class JMH2 {
 
 下面是已经编辑过的结果，包含精确计算出的加速数值：
 
-| JMH2 Benchmark     | Size      | Score %    | Speedup |
-| ------------------ | --------- | ---------- | ------- |
-| **setAll**         | 1         | 0.001      |         |
-| **parallelSetAll** | 1         | 0.036      | 0.028   |
-| **setAll**         | 10        | 0.005      |         |
-| **parallelSetAll** | 10        | 3.965      | 0.001   |
-| **setAll**         | 100       | 0.031      |         |
-| **parallelSetAll** | 100       | 3.145      | 0.010   |
-| **setAll**         | 1000      | 0.302      |         |
-| **parallelSetAll** | 1000      | 3.285      | 0.092   |
-| **setAll**         | 10000     | 3.152      |         |
-| **parallelSetAll** | 10000     | 9.669      | 0.326   |
-| **setAll**         | 100000    | 34.971     |         |
-| **parallelSetAll** | 100000    | 20.153     | 1.735   |
-| **setAll**         | 1000000   | 420.581    |         |
-| **parallelSetAll** | 1000000   | 165.388    | 2.543   |
-| **setAll**         | 10000000  | 8160.054   |         |
-| **parallelSetAll** | 10000000  | 7610.190   | 1.072   |
-| **setAll**         | 100000000 | 79128.752  |         |
-| **parallelSetAll** | 100000000 | 76734.671  | 1.031   |
-| **setAll**         | 250000000 | 199552.121 |         |
-| **parallelSetAll** | 250000000 | 191791.927 | 1.040   |
-
 可以看到当数组大小达到 10 万左右时，**parallelSetAll()** 开始反超，而后趋于与非并行的运行速度相同。即使它运行速度上胜了，看起来也不足以证明由于并行的存在而使速度变快。
 
 **setAll()/parallelSetAll()** 中工作的计算量起很大影响吗？在前面的例子中，我们所做的只有对数组的赋值操作，这可能是最简单的任务。所以即使 **N** 值变大，**N\*Q** 也仍然没有达到巨大，所以看起来像是我们没有为并行提供足够的机会（JMH 提供了一种模拟变量 Q 的途径；如果想了解更多的话，可搜索 **Blackhole.consumeCPU**）。
@@ -1786,29 +1558,6 @@ public class JMH3 {
 
 **f()** 方法提供了更加复杂且耗时的操作。现在除了简单的给数组赋值外，**setAll()** 和 **parallelSetAll()** 都有更多的工作去做，这肯定会影响结果。
 
-| JMH2 Benchmark     | Size      | Score %     | Speedup |
-| ------------------ | --------- | ----------- | ------- |
-| **setAll**         | 1         | 0.012       |         |
-| **parallelSetAll** | 1         | 0.047       | 0.255   |
-| **setAll**         | 10        | 0.107       |         |
-| **parallelSetAll** | 10        | 3.894       | 0.027   |
-| **setAll**         | 100       | 0.990       |         |
-| **parallelSetAll** | 100       | 3.708       | 0.267   |
-| **setAll**         | 1000      | 133.814     |         |
-| **parallelSetAll** | 1000      | 11.747      | 11.391  |
-| **setAll**         | 10000     | 97.954      |         |
-| **parallelSetAll** | 10000     | 37.259      | 2.629   |
-| **setAll**         | 100000    | 988.475     |         |
-| **parallelSetAll** | 100000    | 276.264     | 3.578   |
-| **setAll**         | 1000000   | 9203.103    |         |
-| **parallelSetAll** | 1000000   | 2826.974    | 3.255   |
-| **setAll**         | 10000000  | 92144.951   |         |
-| **parallelSetAll** | 10000000  | 28126.202   | 3.276   |
-| **setAll**         | 100000000 | 921701.863  |         |
-| **parallelSetAll** | 100000000 | 266750.543  | 3.455   |
-| **setAll**         | 250000000 | 2299127.273 |         |
-| **parallelSetAll** | 250000000 | 538173.425  | 4.272   |
-
 可以看到当数组的大小达到 1000 左右时，**parallelSetAll()** 的运行速度反超了 **setAll()**。看来 **parallelSetAll()** 严重依赖数组中计算的复杂度。这正是基准测试的价值所在，因为我们已经得到了关于 **setAll()** 和 **parallelSetAll()** 间微妙的信息，知道在何时使用它们。
 
 这显然不是从阅读 Javadocs 就能得到的。
@@ -1851,7 +1600,7 @@ public class JMH3 {
 
 一些文件仍然产生了风格检测警告，通常是因为这些例子展示了你在生产代码中不会使用的样例。
 
-你还可以针对一个具体的章节运行代码检测。例如，下面命令会运行 [Annotations](./23-Annotations.md) 章节的风格检测：
+你还可以针对一个具体的章节运行代码检测。例如，下面命令会运行 Annotations 章节的风格检测：
 
 **gradlew annotations:checkstyleMain**
 

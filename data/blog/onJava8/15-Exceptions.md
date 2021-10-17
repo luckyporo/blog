@@ -1651,7 +1651,7 @@ public class TryWithResources {
 }
 ```
 
-在 Java 7 之前，try 后面总是跟着一个 {，但是现在可以跟一个带括号的定义 ——这里是我们创建的 FileInputStream 对象。括号内的部分称为资源规范头（resource specification header）。现在 `in` 在整个 try 块的其余部分都是可用的。更重要的是，无论你如何退出 try 块（正常或通过异常），和以前的 finally 子句等价的代码都会被执行，并且不用编写那些杂乱而棘手的代码。这是一项重要的改进。
+在 Java 7 之前，try 后面总是跟着一个 `{`，但是现在可以跟一个带括号的定义 ——这里是我们创建的 FileInputStream 对象。括号内的部分称为资源规范头（resource specification header）。现在 `in` 在整个 try 块的其余部分都是可用的。更重要的是，无论你如何退出 try 块（正常或通过异常），和以前的 finally 子句等价的代码都会被执行，并且不用编写那些杂乱而棘手的代码。这是一项重要的改进。
 
 它是如何工作的？ try-with-resources 定义子句中创建的对象（在括号内）必须实现 `java.lang.AutoCloseable` 接口，这个接口只有一个方法：`close()`。当在 Java 7 中引入 `AutoCloseable` 时，许多接口和类被修改以实现它；查看 Javadocs 中的 AutoCloseable，可以找到所有实现该接口的类列表，其中包括 `Stream` 对象：
 

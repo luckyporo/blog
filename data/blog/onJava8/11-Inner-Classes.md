@@ -686,7 +686,7 @@ public class TestBed {
 f()
 ```
 
-这生成了一个独立的类 **TestBed$Tester**（要运行这个程序，执行 **java TestBed$Tester**，在 Unix/Linux 系统中需要转义 **$** ）。你可以使用这个类测试，但是不必在发布的产品中包含它，可以在打包产品前删除 **TestBed$Tester.class**。
+这生成了一个独立的类 `TestBed$Tester`（要运行这个程序，执行 `java TestBed$Tester`，在 Unix/Linux 系统中需要转义 `$` ）。你可以使用这个类测试，但是不必在发布的产品中包含它，可以在打包产品前删除 `TestBed$Tester.class`。
 
 ### 从多层嵌套类中访问外部类的成员
 
