@@ -24,7 +24,6 @@ Java 是从 C++ 的基础上做了一些改进和简化发展而成的。对于 
 ```java
 // operators/Precedence.java
 public class Precedence {
-
     public static void main(String[] args) {
         int x = 1, y = 2, z = 3;
         int a = x + y - 2/2 + z; // [1]
@@ -37,9 +36,9 @@ public class Precedence {
 
 输出结果:
 
-```
-    a = 5
-    b = 1
+```java
+a = 5
+b = 1
 ```
 
 这些语句看起来大致相同，但从输出中我们可以看出它们具有非常不同的含义，具体取决于括号的使用。
@@ -62,7 +61,6 @@ class Tank {
 }
 
 public class Assignment {
-
     public static void main(String[] args) {
         Tank t1 = new Tank();
         Tank t2 = new Tank();
@@ -267,7 +265,7 @@ public class AutoInc {
 
 输出结果：
 
-```
+```java
 i: 1
 ++i: 2
 i++: 2

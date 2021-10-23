@@ -177,13 +177,12 @@ void doSomething(Shape shape) {
 此方法与任何 **Shape** 对话，因此它与所绘制和擦除的对象的具体类型无关。如果程序的其他部分使用 `doSomething()` 方法：
 
 ```java
-    Circle circle = new Circle();
-    Triangle triangle = new Triangle();
-    Line line = new Line();
-    doSomething(circle);
-    doSomething(triangle);
-    doSomething(line);
-
+Circle circle = new Circle();
+Triangle triangle = new Triangle();
+Line line = new Line();
+doSomething(circle);
+doSomething(triangle);
+doSomething(line);
 ```
 
 可以看到无论传入的“形状”是什么，程序都正确的执行了。
@@ -193,7 +192,7 @@ void doSomething(Shape shape) {
 这是一个非常令人惊奇的编程技巧。分析下面这行代码：
 
 ```java
-    doSomething(circle);
+doSomething(circle);
 ```
 
 当预期接收 **Shape** 的方法被传入了 **Circle**，会发生什么。由于 **Circle** 也是一种 **Shape**，所
@@ -202,9 +201,9 @@ void doSomething(Shape shape) {
 这种把子类当成其基类来处理的过程叫做“向上转型”（**upcasting**）。在面向对象的编程里，经常利用这种方法来给程序解耦。再看下面的 `doSomething()` 代码示例：
 
 ```java
-    shape.erase();
-    // ...
-    shape.draw();
+shape.erase();
+// ...
+shape.draw();
 ```
 
 我们可以看到程序并未这样表达：“如果你是一个 Circle ，就这样做；如果你是一个 Square，就那样做...”。若那样编写代码，就需检查 Shape 所有可能的类型，如圆、矩形等等。这显然是非常麻烦的，而且每次添加了一种新的 Shape 类型后，都要相应地进行修改。在这里，我们只需说：“你是一种几何形状，我知道你能删掉 `erase()` 和绘制 `draw()`，你自己去做吧，注意细节。”
@@ -250,7 +249,7 @@ Java 的单继承结构有很多好处。由于所有对象都具有一个公共
 参数化类型机制可以使得编译器能够自动识别某个 `class` 的具体类型并正确地执行。举个例子，对集合的参数化类型机制可以让集合仅接受“形状”这种类型的元素，并以“形状”类型取出元素。Java 5 版本支持了参数化类型机制，称之为“泛型”（Generic）。泛型是 Java 5 的主要特性之一。你可以按以下方式向 ArrayList 中添加 Shape（形状）：
 
 ```java
-    ArrayList<Shape> shapes = new ArrayList<>();
+ArrayList<Shape> shapes = new ArrayList<>();
 ```
 
 泛型的应用，让 Java 的许多标准库和组件都发生了改变。在本书的代码示例中，你也会经常看到泛型的身影。
